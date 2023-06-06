@@ -2,7 +2,9 @@
 
 namespace App\Http\Controllers;
 
+use App\Models\User;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Hash;
 
 class AdministratorController extends Controller
 {
@@ -13,7 +15,9 @@ class AdministratorController extends Controller
      */
     public function index()
     {
-        //
+        return view('dashboard.administrator.index', [
+            'admins' => User::whereIn('role_id', [0, 1])->get(),
+        ]);
     }
 
     /**
@@ -23,7 +27,7 @@ class AdministratorController extends Controller
      */
     public function create()
     {
-        //
+        return view('dashboard.administrator.create');
     }
 
     /**
@@ -34,7 +38,15 @@ class AdministratorController extends Controller
      */
     public function store(Request $request)
     {
-        //
+        $validated = $request->validate([
+            'name' => ['required'],
+            'email' => ['required', 'unique:users'],
+            'role_id' => ['required'],
+            'password' => ['required'],
+        ]);
+        $validated['password'] = Hash::make($request->password);
+        User::create($validated);
+        return redirect('/administrator');
     }
 
     /**

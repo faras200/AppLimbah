@@ -4,7 +4,8 @@
         <nav aria-label="breadcrumb">
             <ol class="breadcrumb bg-transparent mb-0 pb-0 pt-1 px-0 me-sm-6 me-5">
                 <li class="breadcrumb-item text-sm"><a class="opacity-5 text-dark" href="javascript:;">Pages</a></li>
-                <li class="breadcrumb-item text-sm text-dark active" aria-current="page">Dashboard</li>
+                <li class="breadcrumb-item text-sm text-dark active" aria-current="page">
+                    {{ Route::current()->getName() }}</li>
             </ol>
 
         </nav>
@@ -16,16 +17,10 @@
 
                 <li class="nav-item d-flex align-items-center dropdown">
 
-                    <a href="javascript:;" class="nav-link dropdown-toggle text-body font-weight-bold px-0"
-                        id="dropdownMenuButton" data-bs-toggle="dropdown">
+                    <a href="/profile" class="nav-link text-body font-weight-bold px-0">
                         <i class="fa fa-user me-sm-1"></i>
                         <span class="d-sm-inline d-none">{{ Auth::user()->name }}</span>
                     </a>
-                    <ul class="dropdown-menu" aria-labelledby="dropdownMenuButton">
-                        <li><a class="dropdown-item" href="javascript:;">Action</a></li>
-                        <li><a class="dropdown-item" href="javascript:;">Another action</a></li>
-                        <li><a class="dropdown-item" href="javascript:;">Something else here</a></li>
-                    </ul>
                 </li>
                 <li class="nav-item d-xl-none ps-3 d-flex align-items-center">
                     <a href="javascript:;" class="nav-link text-body p-0" id="iconNavbarSidenav">
@@ -36,11 +31,7 @@
                         </div>
                     </a>
                 </li>
-                <li class="nav-item px-3 d-flex align-items-center">
-                    <a href="javascript:;" class="nav-link text-body p-0">
-                        <i class="fa fa-cog fixed-plugin-button-nav cursor-pointer"></i>
-                    </a>
-                </li>
+
             </ul>
         </div>
     </div>

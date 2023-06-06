@@ -1,5 +1,7 @@
 <?php
 
+use App\Http\Controllers\AdministratorController;
+use App\Http\Controllers\ProfileController;
 use Illuminate\Support\Facades\Route;
 
 /*
@@ -11,14 +13,25 @@ use Illuminate\Support\Facades\Route;
 | routes are loaded by the RouteServiceProvider within a group which
 | contains the "web" middleware group. Now create something great!
 |
-*/
+ */
 
 Route::get('/', function () {
     return view('welcome');
 });
 
-Route::get('/dashboard', function () {
-    return view('dashboard');
-})->middleware(['auth'])->name('dashboard');
+Route::middleware(['auth'])->group(function () {
+    Route::get('/dashboard', function () {
+        return view('dashboard.index');
+    })->name('Dashboard');
 
-require __DIR__.'/auth.php';
+    Route::resource('/administrator', AdministratorController::class)->names([
+        'index' => 'Administrator',
+        'create' => 'Administrator Create',
+    ]);
+
+    Route::resource('/profile', ProfileController::class)->names([
+        'index' => 'Profile',
+    ]);
+});
+
+require __DIR__ . '/auth.php';

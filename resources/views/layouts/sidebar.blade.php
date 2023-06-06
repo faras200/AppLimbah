@@ -12,7 +12,7 @@
     <div class="collapse navbar-collapse  w-auto " style="height:100% !important" id="sidenav-collapse-main">
         <ul class="navbar-nav">
             <li class="nav-item">
-                <a class="nav-link  active" href="/pages/dashboard.html">
+                <a class="nav-link {{ request()->is('dashboard*') ? 'active' : '' }} " href="/dashboard">
                     <div
                         class="icon icon-shape icon-sm shadow border-radius-md bg-white text-center me-2 d-flex align-items-center justify-content-center">
                         <svg width="12px" height="12px" viewBox="0 0 45 40" version="1.1"
@@ -38,7 +38,7 @@
                 </a>
             </li>
             <li class="nav-item">
-                <a class="nav-link  " href="/administrator">
+                <a class="nav-link  {{ request()->is('administrator*') ? 'active' : '' }} " href="/administrator">
                     <div
                         class="icon icon-shape icon-sm shadow border-radius-md bg-white text-center me-2 d-flex align-items-center justify-content-center">
                         <i class="fa fa-user" style="color: #141727 !important;"></i>
@@ -170,7 +170,7 @@
                 <form method="POST" action="{{ route('logout') }}">
                     @csrf
 
-                    <button class="nav-link" type="submit">
+                    <button class="nav-link" style="border:none; background:transparent" type="submit">
                         <div
                             class="icon icon-shape icon-sm shadow border-radius-md bg-white text-center me-2 d-flex align-items-center justify-content-center">
                             <i class="fa fa-user" style="color: #141727 !important;"></i>
