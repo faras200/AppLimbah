@@ -5,8 +5,8 @@
         <div class="col-12">
             <div class="card mb-4">
                 <div class="card-header pb-0 d-flex justify-content-between">
-                    <h6>Administrator</h6>
-                    <a href="/administrator/create" class="btn btn-primary">Tambah <i class="fas fa-plus"></i></a>
+                    <h6>Postingan</h6>
+                    <a href="/post/create" class="btn btn-primary">Tambah <i class="fas fa-plus"></i></a>
                 </div>
                 @if (session()->has('success'))
                     @php
@@ -16,6 +16,7 @@
                         swal({
                             title: 'Berhasil!!',
                             text: '<?= $p ?>',
+
                             icon: 'success',
                         });
                     </script>
@@ -26,16 +27,21 @@
                             <thead>
                                 <tr>
                                     <th class="text-uppercase text-secondary text-xxs font-weight-bolder opacity-7">Nama
+                                        Barang
                                     </th>
                                     <th class="text-uppercase text-secondary text-xxs font-weight-bolder opacity-7 ps-2">
-                                        Role</th>
+                                        Jenis</th>
+                                    <th class="text-uppercase text-secondary text-xxs font-weight-bolder opacity-7 ps-2">
+                                        Berat</th>
+                                    <th class="text-uppercase text-secondary text-xxs font-weight-bolder opacity-7 ps-2">
+                                        Deskripsi</th>
                                     <th
                                         class="text-center text-uppercase text-secondary text-xxs font-weight-bolder opacity-7">
                                         Aksi</th>
                                 </tr>
                             </thead>
                             <tbody>
-                                @foreach ($admins as $admin)
+                                @foreach ($postingan as $post)
                                     <tr>
                                         <td>
                                             <div class="d-flex px-2 py-1">
@@ -44,21 +50,39 @@
                                                         alt="user1">
                                                 </div>
                                                 <div class="d-flex flex-column justify-content-center">
-                                                    <h6 class="mb-0 text-sm">{{ $admin->name }}</h6>
+                                                    <h6 class="mb-0 text-sm">{{ $post->nama_barang }}</h6>
                                                     {{-- <p class="text-xs text-secondary mb-0">john@creative-tim.com</p> --}}
                                                 </div>
                                             </div>
                                         </td>
                                         <td>
                                             <p class="text-xs font-weight-bold mb-0">
-                                                {{ $admin->role_id == 1 ? 'Petugas' : 'Administrator' }}</p>
+                                                {{ $post->jenis }}</p>
+                                            {{-- <p class="text-xs text-secondary mb-0">Organization</p> --}}
+                                        </td>
+                                        <td>
+                                            <p class="text-xs font-weight-bold mb-0">
+                                                {{ $post->berat }}</p>
+                                            {{-- <p class="text-xs text-secondary mb-0">Organization</p> --}}
+                                        </td>
+                                        <td>
+                                            <p class="text-xs font-weight-bold mb-0">
+                                                {{ $post->deskripsi_barang }}</p>
                                             {{-- <p class="text-xs text-secondary mb-0">Organization</p> --}}
                                         </td>
                                         <td class="align-middle text-center">
-                                            <a href="/administrator/{{ $admin->id }}/edit" style="margin-right: 5px;"><i
-                                                    class="fas fa-edit text-warning"></i></a>
-                                            <i class="fas fa-trash text-danger"
-                                                onclick="confirmationHapusData('/administrator/delete/{{ $admin->id }}')"></i>
+                                            <span data-container="body" data-bs-toggle="popover" data-bs-placement="top"
+                                                data-bs-trigger="hover focus" data-bs-content="Disabled popover">
+                                                <a href="/post/{{ $post->id }}/edit" style="margin-right: 5px;"><i
+                                                        class="fas fa-edit text-warning"></i></a>
+                                            </span>
+                                            <span data-container="body" data-bs-toggle="popover" data-bs-placement="top"
+                                                data-bs-trigger="hover focus" data-bs-content="Disabled popover">
+                                                <i class="fas fa-trash text-danger"
+                                                    onclick="confirmationHapusData('/post/delete/{{ $post->id }}')"></i>
+                                            </span>
+                                            <a href="/post/{{ $post->id }}" style="margin-left: 5px;"><i
+                                                    class="fas fa-eye text-info"></i></a>
                                         </td>
                                     </tr>
                                 @endforeach
@@ -69,21 +93,4 @@
             </div>
         </div>
     </div>
-    <script>
-        function confirmationHapusData(url) {
-            swal({
-                title: 'Anda Yakin Untuk Menghapus Data Ini ?',
-                text: 'Anda Tidak Dapat Melihat Data Ini Lagi!!!',
-                icon: 'warning',
-                dangerMode: true,
-                buttons: ['Tidak', 'Yakin']
-
-            }).then((result) => {
-                /* Read more about isConfirmed, isDenied below */
-                if (result) {
-                    window.location.href = url;
-                }
-            })
-        }
-    </script>
 @endsection

@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers;
 
+use App\Models\Post;
 use Illuminate\Http\Request;
 
 class PostinganController extends Controller
@@ -13,7 +14,9 @@ class PostinganController extends Controller
      */
     public function index()
     {
-        //
+        return view('dashboard.postingan.index', [
+            'postingan' => Post::all(),
+        ]);
     }
 
     /**
@@ -23,7 +26,7 @@ class PostinganController extends Controller
      */
     public function create()
     {
-        //
+        return view('dashboard.postingan.create');
     }
 
     /**
@@ -56,7 +59,9 @@ class PostinganController extends Controller
      */
     public function edit($id)
     {
-        //
+        return view('dashboard.postingan.edit', [
+            'post' => Post::firstwhere('id', $id),
+        ]);
     }
 
     /**

@@ -47,7 +47,7 @@
                 </a>
             </li>
             <li class="nav-item">
-                <a class="nav-link  {{ request()->is('postingan*') ? 'active' : '' }} " href="/administrator">
+                <a class="nav-link  {{ request()->is('post*') ? 'active' : '' }} " href="/post">
                     <div
                         class="icon icon-shape icon-sm shadow border-radius-md bg-white text-center me-2 d-flex align-items-center justify-content-center">
                         <i class="fa fa-file-alt" style="color: #141727 !important;"></i>

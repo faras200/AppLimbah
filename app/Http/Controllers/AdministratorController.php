@@ -112,6 +112,7 @@ class AdministratorController extends Controller
      */
     public function destroy($id)
     {
-        //
+        User::destroy($id);
+        return redirect('/administrator')->with('success', 'Berhasil Menghapus Admin!!');
     }
 }

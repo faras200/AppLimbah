@@ -2,6 +2,7 @@
 
 use App\Http\Controllers\AdministratorController;
 use App\Http\Controllers\HomeController;
+use App\Http\Controllers\PostinganController;
 use App\Http\Controllers\ProfileController;
 use Illuminate\Support\Facades\Route;
 
@@ -26,10 +27,16 @@ Route::middleware(['auth'])->group(function () {
     Route::resource('/administrator', AdministratorController::class)->names([
         'index' => 'Administrator',
         'create' => 'Administrator Create',
+        'edit' => 'Administrator Edit',
     ]);
+    Route::get('/administrator/delete/{id}', [AdministratorController::class, 'destroy']);
 
     Route::resource('/profile', ProfileController::class)->names([
         'index' => 'Profile',
+    ]);
+
+    Route::resource('/post', PostinganController::class)->names([
+        'index' => 'Postingan',
     ]);
 });
 
