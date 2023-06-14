@@ -8,6 +8,18 @@
                     <h6>Administrator</h6>
                     <a href="/administrator/create" class="btn btn-primary">Tambah <i class="fas fa-plus"></i></a>
                 </div>
+                @if (session()->has('success'))
+                    @php
+                        $p = session('success');
+                    @endphp
+                    <script>
+                        swal({
+                            title: 'Berhasil!!',
+                            text: '<?= $p ?>',
+                            icon: 'success',
+                        });
+                    </script>
+                @endif
                 <div class="card-body px-0 pt-0 pb-2">
                     <div class="table-responsive p-0">
                         <table class="table align-items-center mb-0">
@@ -17,9 +29,6 @@
                                     </th>
                                     <th class="text-uppercase text-secondary text-xxs font-weight-bolder opacity-7 ps-2">
                                         Role</th>
-                                    <th
-                                        class="text-center text-uppercase text-secondary text-xxs font-weight-bolder opacity-7">
-                                        Status</th>
                                     <th
                                         class="text-center text-uppercase text-secondary text-xxs font-weight-bolder opacity-7">
                                         Aksi</th>
@@ -45,12 +54,10 @@
                                                 {{ $admin->role_id == 1 ? 'Petugas' : 'Administrator' }}</p>
                                             {{-- <p class="text-xs text-secondary mb-0">Organization</p> --}}
                                         </td>
-                                        <td class="align-middle text-center text-sm">
-                                            <span class="badge badge-sm bg-gradient-success">Online</span>
-                                        </td>
                                         <td class="align-middle">
-                                            <a href="javascript:;" class="text-secondary font-weight-bold text-xs"
-                                                data-toggle="tooltip" data-original-title="Edit user">
+                                            <a href="/administrator/{{ $admin->id }}/edit"
+                                                class="text-secondary font-weight-bold text-xs" data-toggle="tooltip"
+                                                data-original-title="Edit user">
                                                 Edit
                                             </a>
                                         </td>

@@ -2,11 +2,12 @@
 
 namespace App\Http\Controllers;
 
+use App\Models\Alamat;
 use App\Models\User;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Hash;
 
-class AdministratorController extends Controller
+class ProfileController extends Controller
 {
     /**
      * Display a listing of the resource.
@@ -15,8 +16,9 @@ class AdministratorController extends Controller
      */
     public function index()
     {
-        return view('dashboard.administrator.index', [
-            'admins' => User::whereIn('role_id', [0, 1])->get(),
+        return view('dashboard.profile.index', [
+            'user' => User::firstwhere('id', auth()->user()->id),
+            'alamat' => Alamat::firstwhere('id', auth()->user()->alamat_id),
         ]);
     }
 
@@ -27,7 +29,7 @@ class AdministratorController extends Controller
      */
     public function create()
     {
-        return view('dashboard.administrator.create');
+        //
     }
 
     /**
@@ -38,15 +40,7 @@ class AdministratorController extends Controller
      */
     public function store(Request $request)
     {
-        $validated = $request->validate([
-            'name' => ['required'],
-            'email' => ['required', 'unique:users'],
-            'role_id' => ['required'],
-            'password' => ['required'],
-        ]);
-        $validated['password'] = Hash::make($request->password);
-        User::create($validated);
-        return redirect('/administrator')->with('success', 'Berhasil Menambah Admin!!');
+        //
     }
 
     /**
@@ -68,9 +62,7 @@ class AdministratorController extends Controller
      */
     public function edit($id)
     {
-        return view('dashboard.administrator.edit', [
-            'admin' => User::where('id', $id)->first(),
-        ]);
+        //
     }
 
     /**
@@ -82,15 +74,18 @@ class AdministratorController extends Controller
      */
     public function update(Request $request, $id)
     {
+        $user = auth()->user();
         $rules = [
             'name' => 'required|max:255',
-            'role_id' => 'required',
         ];
         $email = User::where('id', $id)->first();
         if ($request->email != $email->email) {
             $rules['email'] = 'required|unique:users';
         }
         if (!is_null($request->password)) {
+            if (!Hash::check($request->passwordlama, $user->password)) {
+                return redirect('/profile')->with('failed', 'Password Lama Tidak Sama!!');
+            }
             $rules['password'] = 'required|min:8';
             $validasi = $request->validate($rules);
             $validasi['password'] = Hash::make($validasi['password']);
@@ -101,7 +96,7 @@ class AdministratorController extends Controller
         User::where('id', $id)
             ->update($validasi);
 
-        return redirect('/administrator')->with('success', 'Berhasil Mengubah Admin!!');
+        return redirect('/profile')->with('success', 'Berhasil Mengubah Profile!!');
     }
 
     /**
@@ -113,5 +108,10 @@ class AdministratorController extends Controller
     public function destroy($id)
     {
         //
+    }
+
+    public function alamat(Request $request)
+    {
+
     }
 }

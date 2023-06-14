@@ -62,6 +62,7 @@
     <!-- Nepcha Analytics (nepcha.com) -->
     <!-- Nepcha is a easy-to-use web analytics. No cookies and fully compliant with GDPR, CCPA and PECR. -->
     <script defer data-site="YOUR_DOMAIN_HERE" src="https://api.nepcha.com/js/nepcha-analytics.js"></script>
+    <script src="https://unpkg.com/sweetalert/dist/sweetalert.min.js"></script>
 </head>
 
 <body class="g-sidenav-show  bg-gray-100">
@@ -344,6 +345,7 @@
         }
     </script>
     <!-- Github buttons -->
+    <script src="https://unpkg.com/sweetalert/dist/sweetalert.min.js"></script>
     <script async defer src="https://buttons.github.io/buttons.js"></script>
     <!-- Control Center for Soft Dashboard: parallax effects, scripts for the example pages etc -->
     <script src="/assets/js/soft-ui-dashboard.min.js?v=1.0.7"></script>
