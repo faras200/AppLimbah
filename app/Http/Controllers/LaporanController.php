@@ -2,10 +2,9 @@
 
 namespace App\Http\Controllers;
 
-use App\Models\Post;
 use Illuminate\Http\Request;
 
-class PostinganController extends Controller
+class LaporanController extends Controller
 {
     /**
      * Display a listing of the resource.
@@ -14,8 +13,8 @@ class PostinganController extends Controller
      */
     public function index()
     {
-        return view('dashboard.postingan.index', [
-            'postingan' => Post::all(),
+        return view('dashboard.laporan.index',[
+            'datas' => []
         ]);
     }
 
@@ -26,7 +25,7 @@ class PostinganController extends Controller
      */
     public function create()
     {
-        return view('dashboard.postingan.create');
+        //
     }
 
     /**
@@ -48,9 +47,7 @@ class PostinganController extends Controller
      */
     public function show($id)
     {
-        return view('dashboard.postingan.show', [
-            'data' => Post::firstwhere('id',$id)
-        ]);
+        //
     }
 
     /**
@@ -61,9 +58,7 @@ class PostinganController extends Controller
      */
     public function edit($id)
     {
-        return view('dashboard.postingan.edit', [
-            'post' => Post::firstwhere('id', $id),
-        ]);
+        //
     }
 
     /**

@@ -5,17 +5,17 @@
         <div class="col-12">
             <div class="card mb-4">
                 <div class="card-header pb-0 d-flex justify-content-between">
-                    <h6>Tambah Postingan</h6>
-                    <a href="/post" class="btn btn-danger">Batal <i class="fas fa-times"></i></a>
+                    <h6>Tambah Admin</h6>
+                    <a href="/administrator" class="btn btn-danger">Batal <i class="fas fa-times"></i></a>
                 </div>
                 <div class="card-body px-0 pt-0 pb-2">
-                    <form action="/post" method="POST">
+                    <form action="/administrator" method="POST">
                         @method('POST')
                         @csrf
                         <div class="row" style="padding: 10px 15px !important;">
                             <div class="col-md-6">
                                 <div class="form-group @error('name') has-danger @enderror">
-                                    <label class="form-control-label" for="">Nama Barang</label>
+                                    <label class="form-control-label" for="">Nama</label>
                                     <input type="text" class="form-control @error('name') is-invalid @enderror"
                                         value="{{ old('name') }}" name="name" placeholder="Masukan Nama">
                                     @error('name')
@@ -25,7 +25,7 @@
                             </div>
                             <div class="col-md-6">
                                 <div class="form-group @error('email') has-danger @enderror">
-                                    <label class="form-control-label" for="">Berat</label>
+                                    <label class="form-control-label" for="">Email</label>
                                     <input type="email" class="form-control @error('email') is-invalid @enderror"
                                         value="{{ old('email') }}" name="email" placeholder="name@example.com">
                                     @error('email')
@@ -35,13 +35,11 @@
                             </div>
                             <div class="col-md-6">
                                 <div class="form-group">
-                                    <label class="form-control-label" for="">Jenis</label>
+                                    <label class="form-control-label" for="">Role</label>
                                     <select class="form-control" name="role_id">
-                                        <option value="">Pilih Jenis</option>
-                                        <option value="1">Plastik</option>
-                                        <option value="2">Elektronik</option>
-                                        <option value="3">Logam</option>
-                                        <option value="4">Besi</option>
+                                        <option value="">Pilih Role</option>
+                                        <option value="1">Petugas</option>
+                                        <option value="0">Administrator</option>
                                     </select>
                                     @error('role_id')
                                         <p class="text-danger">{{ $message }}</p>
@@ -50,17 +48,12 @@
                             </div>
                             <div class="col-md-6">
                                 <div class="form-group">
-                                    <label class="form-control-label" for="">Foto</label>
+                                    <label class="form-control-label" for="">Password</label>
                                     <input type="password" name="password" class="form-control">
                                     @error('password')
                                         <p class="text-danger">{{ $message }}</p>
                                     @enderror
                                 </div>
-                            </div>
-
-                            <div class="col-12">
-                                <label class="form-control-label" for="">Deskripsi Barang</label>
-                                <textarea name="ce" class="form-control"></textarea>
                             </div>
 
                         </div>
@@ -75,23 +68,4 @@
             </div>
         </div>
     </div>
-    <script src="https://code.jquery.com/jquery-3.2.1.min.js"></script>
-    <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.12.3/umd/popper.min.js"></script>
-    <script>
-        var route_prefix = "/filemanager";
-       </script>
-
-
-    <!-- CKEditor init -->
-  <script src="//cdnjs.cloudflare.com/ajax/libs/ckeditor/4.5.11/ckeditor.js"></script>
-  <script src="//cdnjs.cloudflare.com/ajax/libs/ckeditor/4.5.11/adapters/jquery.js"></script>
-  <script>
-    $('textarea[name=ce]').ckeditor({
-      height: 100,
-      filebrowserImageBrowseUrl: route_prefix + '?type=Images',
-      filebrowserImageUploadUrl: route_prefix + '/upload?type=Images&_token={{csrf_token()}}',
-      filebrowserBrowseUrl: route_prefix + '?type=Files',
-      filebrowserUploadUrl: route_prefix + '/upload?type=Files&_token={{csrf_token()}}'
-    });
-  </script>
 @endsection

@@ -1,10 +1,13 @@
 <?php
 
-use App\Http\Controllers\AdministratorController;
-use App\Http\Controllers\HomeController;
-use App\Http\Controllers\PostinganController;
-use App\Http\Controllers\ProfileController;
+use UniSharp\LaravelFilemanager\Lfm;
 use Illuminate\Support\Facades\Route;
+use App\Http\Controllers\HomeController;
+use App\Http\Controllers\LaporanController;
+use App\Http\Controllers\ProfileController;
+use App\Http\Controllers\PostinganController;
+use App\Http\Controllers\PenjemputanController;
+use App\Http\Controllers\AdministratorController;
 
 /*
 |--------------------------------------------------------------------------
@@ -20,6 +23,10 @@ use Illuminate\Support\Facades\Route;
 Route::get('/', [HomeController::class, 'index']);
 
 Route::middleware(['auth'])->group(function () {
+    Route::group(['prefix' => 'laravel-filemanager', 'middleware' => ['web', 'auth']], function () {
+        Lfm::routes();
+    });
+
     Route::get('/dashboard', function () {
         return view('dashboard.index');
     })->name('Dashboard');
@@ -37,6 +44,12 @@ Route::middleware(['auth'])->group(function () {
 
     Route::resource('/post', PostinganController::class)->names([
         'index' => 'Postingan',
+    ]);
+    Route::resource('/penjemputan', PenjemputanController::class)->names([
+        'index' => 'Penjemputan',
+    ]);
+    Route::resource('/laporan', LaporanController::class)->names([
+        'index' => 'Laporan',
     ]);
 });
 
