@@ -152,11 +152,31 @@
                                 </div>
                             </div>
                             <div class="col-md-6">
-                                <div class="form-group @error('email') has-danger @enderror">
-                                    <label class="form-control-label" for="">Email</label>
-                                    <input type="email" class="form-control @error('email') is-invalid @enderror"
-                                        value="{{ old('email') }}" name="email" placeholder="name@example.com">
-                                    @error('email')
+                                <div class="form-group @error('lang') has-danger @enderror">
+                                    <label class="form-control-label" for="">longitude</label>
+                                    <input type="text" id="lang" class="form-control @error('lang') is-invalid @enderror"
+                                        value="{{ old('lang') }}" name="lang">
+                                    @error('lang')
+                                        <p class="text-danger">{{ $message }}</p>
+                                    @enderror
+                                </div>
+                            </div>
+                            <div class="col-md-6">
+                                <div class="form-group @error('lat') has-danger @enderror">
+                                    <label class="form-control-label" for="">latitude</label>
+                                    <input type="text" id="lat" class="form-control @error('lat') is-invalid @enderror"
+                                        value="{{ old('lat') }}" name="lat">
+                                    @error('lat')
+                                        <p class="text-danger">{{ $message }}</p>
+                                    @enderror
+                                </div>
+                            </div>
+                            <div class="col-md-6">
+                                <div class="form-group @error('patokan') has-danger @enderror">
+                                    <label class="form-control-label" for="">Patokan</label>
+                                    <input type="text" id="patokan" class="form-control @error('patokan') is-invalid @enderror"
+                                        value="{{ old('patokan') }}" name="patokan" placeholder="name@example.com">
+                                    @error('patokan')
                                         <p class="text-danger">{{ $message }}</p>
                                     @enderror
                                 </div>
@@ -210,6 +230,8 @@
         }
 
         function showPosition(position) {
+            document.getElementById("lang").value = position.coords.longitude;
+            document.getElementById("lat").value = position.coords.latitude;
             x.innerHTML = "Latitude: " + position.coords.latitude +
                 "<br>Longitude: " + position.coords.longitude +
                 "<a href='https://www.google.com/maps/place/ " + position.coords.latitude + "," + position.coords
