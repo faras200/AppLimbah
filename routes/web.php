@@ -27,6 +27,10 @@ Route::middleware(['auth'])->group(function () {
         Lfm::routes();
     });
 
+    Route::get('/media', function(){
+        return view('dashboard.media.index');
+    });
+
     Route::get('/dashboard', function () {
         return view('dashboard.index');
     })->name('Dashboard');
@@ -37,6 +41,7 @@ Route::middleware(['auth'])->group(function () {
         'edit' => 'Administrator Edit',
     ]);
     Route::get('/administrator/delete/{id}', [AdministratorController::class, 'destroy']);
+    Route::get('/post/delete/{id}', [PostinganController::class, 'destroy']);
 
     Route::resource('/profile', ProfileController::class)->names([
         'index' => 'Profile',
