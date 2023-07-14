@@ -2,13 +2,11 @@
 
 namespace App\Http\Controllers;
 
-use App\Models\Alamat;
 use App\Models\User;
 use Illuminate\Http\Request;
-use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Hash;
 
-class ProfileController extends Controller
+class UsersController extends Controller
 {
     /**
      * Display a listing of the resource.
@@ -17,9 +15,8 @@ class ProfileController extends Controller
      */
     public function index()
     {
-        return view('dashboard.profile.index', [
-            'user' => User::firstwhere('id', auth()->user()->id),
-            'alamat' => Alamat::firstwhere('user_id', auth()->user()->id),
+        return view('dashboard.users.index', [
+            'admins' => User::whereIn('role_id',['2'])->get()
         ]);
     }
 
@@ -30,7 +27,7 @@ class ProfileController extends Controller
      */
     public function create()
     {
-        //
+        return view('dashboard.users.create');
     }
 
     /**
@@ -41,7 +38,15 @@ class ProfileController extends Controller
      */
     public function store(Request $request)
     {
-        //
+        $validated = $request->validate([
+            'name' => ['required'],
+            'email' => ['required', 'unique:users'],
+            'role_id' => ['required'],
+            'password' => ['required'],
+        ]);
+        $validated['password'] = Hash::make($request->password);
+        User::create($validated);
+        return redirect('/users')->with('success', 'Berhasil Menambah Admin!!');
     }
 
     /**
@@ -63,7 +68,9 @@ class ProfileController extends Controller
      */
     public function edit($id)
     {
-        //
+        return view('dashboard.users.edit', [
+            'admin' => User::where('id', $id)->first(),
+        ]);
     }
 
     /**
@@ -75,7 +82,6 @@ class ProfileController extends Controller
      */
     public function update(Request $request, $id)
     {
-        $user = auth()->user();
         $rules = [
             'name' => 'required|max:255',
         ];
@@ -84,9 +90,6 @@ class ProfileController extends Controller
             $rules['email'] = 'required|unique:users';
         }
         if (!is_null($request->password)) {
-            if (!Hash::check($request->passwordlama, $user->password)) {
-                return redirect('/profile')->with('failed', 'Password Lama Tidak Sama!!');
-            }
             $rules['password'] = 'required|min:8';
             $validasi = $request->validate($rules);
             $validasi['password'] = Hash::make($validasi['password']);
@@ -94,10 +97,12 @@ class ProfileController extends Controller
             $validasi = $request->validate($rules);
         }
 
+        $validasi['role_id'] = 2;
+
         User::where('id', $id)
             ->update($validasi);
 
-        return redirect('/profile')->with('success', 'Berhasil Mengubah Profile!!');
+        return redirect('/users')->with('success', 'Berhasil Mengubah Admin!!');
     }
 
     /**
@@ -108,34 +113,7 @@ class ProfileController extends Controller
      */
     public function destroy($id)
     {
-        //
-    }
-
-    public function updatealamat(Request $request, $id)
-    {
-        $user = Auth::user();
-        if($id == 'create'){
-            $validated = $request->validate([
-                'jenis_alamat' => ['required'],
-                'alamat_lengkap' => ['required'],
-                'lang' => ['required'],
-                'lat' => ['required'],
-                'patokan' => ['required'],
-            ]);
-            $validated['user_id'] = $user->id;
-            Alamat::create($validated);
-            return redirect('/profile')->with('success', 'Berhasil Simpan Alamat!!');
-        }else{
-            $validated = $request->validate([
-                'jenis_alamat' => ['required'],
-                'alamat_lengkap' => ['required'],
-                'lang' => ['required'],
-                'lat' => ['required'],
-                'patokan' => ['required'],
-            ]);
-            $validated['user_id'] = $user->id;
-            Alamat::where('id', $id)->update($validated);
-            return redirect('/profile')->with('success', 'Berhasil Simpan Alamat!!');
-        }
+        User::destroy($id);
+        return redirect('/users')->with('success', 'Berhasil Menghapus Users!!');
     }
 }

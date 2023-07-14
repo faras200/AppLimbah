@@ -41,7 +41,7 @@
                 <a class="nav-link  {{ request()->is('administrator*') ? 'active' : '' }} " href="/administrator">
                     <div
                         class="icon icon-shape icon-sm shadow border-radius-md bg-white text-center me-2 d-flex align-items-center justify-content-center">
-                        <i class="fa fa-user" style="color: #141727 !important;"></i>
+                        <i class="fa fa-user" style="color: {{ request()->is('administrator*') ? 'white' : 'black' }} !important;"></i>
                     </div>
                     <span class="nav-link-text ms-1">Administrator</span>
                 </a>
@@ -50,16 +50,16 @@
                 <a class="nav-link  {{ request()->is('post*') ? 'active' : '' }} " href="/post">
                     <div
                         class="icon icon-shape icon-sm shadow border-radius-md bg-white text-center me-2 d-flex align-items-center justify-content-center">
-                        <i class="fa fa-file-alt" style="color: #141727 !important;"></i>
+                        <i class="fa fa-file-alt" style="color: {{ request()->is('post*') ? 'white' : 'black' }} !important;"></i>
                     </div>
                     <span class="nav-link-text ms-1">Postingan</span>
                 </a>
             </li>
             <li class="nav-item">
-                <a class="nav-link  {{ request()->is('transaksi*') ? 'active' : '' }} " href="/post">
+                <a class="nav-link  {{ request()->is('transaksi*') ? 'active' : '' }} " href="/transaksi">
                     <div
                         class="icon icon-shape icon-sm shadow border-radius-md bg-white text-center me-2 d-flex align-items-center justify-content-center">
-                        <i class="fas fa-money-bill-alt" style="color: #141727 !important;"></i>
+                        <i class="fas fa-money-bill-alt" style="color:{{ request()->is('transaksi*') ? 'white' : 'black' }} !important;"></i>
                     </div>
                     <span class="nav-link-text ms-1">Transaksi</span>
                 </a>
@@ -68,7 +68,7 @@
                 <a class="nav-link  {{ request()->is('penjemputan*') ? 'active' : '' }}" href="/penjemputan">
                     <div
                     class="icon icon-shape icon-sm shadow border-radius-md bg-white text-center me-2 d-flex align-items-center justify-content-center">
-                    <i class="fa fa-car-side" style="color: #141727 !important;"></i>
+                    <i class="fa fa-car-side" style="color: {{ request()->is('penjemputan*') ? 'white' : 'black' }} !important;"></i>
                 </div>
                     <span class="nav-link-text ms-1">Penjemputan</span>
                 </a>
@@ -117,7 +117,7 @@
                             <a class="nav-link  {{ request()->is('users*') ? 'active' : '' }} " href="/users">
                                 <div
                                     class="icon icon-shape icon-sm shadow border-radius-md bg-white text-center me-2 d-flex align-items-center justify-content-center">
-                                    <i class="fa fa-users" style="color: #141727 !important;"></i>
+                                    <i class="fa fa-users" style="color: {{ request()->is('users*') ? 'white' : 'black' }} !important;"></i>
                                 </div>
                                 <span class="nav-link-text ms-1">Data Users</span>
                             </a>
@@ -125,7 +125,7 @@
                             <a class="nav-link  {{ request()->is('all-transaksi*') ? 'active' : '' }} " href="/all-transaksi">
                                 <div
                                     class="icon icon-shape icon-sm shadow border-radius-md bg-white text-center me-2 d-flex align-items-center justify-content-center">
-                                    <i class="fa fa-file-alt" style="color: #141727 !important;"></i>
+                                    <i class="fa fa-file-alt" style="color:{{ request()->is('all-transaksi*') ? 'white' : 'black' }} !important;"></i>
                                 </div>
                                 <span class="nav-link-text ms-1">Data Transaksi</span>
                             </a>
@@ -133,7 +133,7 @@
                             <a class="nav-link  {{ request()->is('media*') ? 'active' : '' }} " href="/media">
                                 <div
                                     class="icon icon-shape icon-sm shadow border-radius-md bg-white text-center me-2 d-flex align-items-center justify-content-center">
-                                    <i class="fa fa-file" style="color: #141727 !important;"></i>
+                                    <i class="fa fa-file" style="color: {{ request()->is('media*') ? 'white' : 'black' }}  !important;"></i>
                                 </div>
                                 <span class="nav-link-text ms-1">Data Media</span>
                             </a>

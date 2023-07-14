@@ -5,8 +5,8 @@
         <div class="col-12">
             <div class="card mb-4">
                 <div class="card-header pb-0 d-flex justify-content-between">
-                    <h6>Administrator</h6>
-                    <a href="/administrator/create" class="btn btn-primary">Tambah <i class="fas fa-plus"></i></a>
+                    <h6>Users</h6>
+                    <a href="/users/create" class="btn btn-primary">Tambah <i class="fas fa-plus"></i></a>
                 </div>
                 @if (session()->has('success'))
                     @php
@@ -56,14 +56,14 @@
                                         </td>
                                         <td>
                                             <p class="text-xs font-weight-bold mb-0">
-                                                {{ $admin->role_id == 1 ? 'Petugas' : 'Administrator' }}</p>
+                                               User Biasa</p>
                                             {{-- <p class="text-xs text-secondary mb-0">Organization</p> --}}
                                         </td>
                                         <td class="align-middle text-center">
-                                            <a href="/administrator/{{ $admin->id }}/edit" style="margin-right: 5px;"><i
+                                            <a href="/users/{{ $admin->id }}/edit" style="margin-right: 5px;"><i
                                                     class="fas fa-edit text-warning"></i></a>
                                             <i class="fas fa-trash text-danger"
-                                                onclick="confirmationHapusData('/administrator/delete/{{ $admin->id }}')"></i>
+                                                onclick="confirmationHapusData('/users/delete/{{ $admin->id }}')"></i>
                                         </td>
                                     </tr>
                                 @endforeach

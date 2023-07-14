@@ -57,7 +57,7 @@
                         </div>
                     </div>
                     <div class="row mt-4">
-                        <a href="/Users" style="font-size: 12px">Lihat semua</a>
+                        <a href="/users" style="font-size: 12px">Lihat semua</a>
                     </div>
                 </div>
             </div>
@@ -82,7 +82,7 @@
                         </div>
                     </div>
                     <div class="row mt-4">
-                        <a href="/postingan" style="font-size: 12px">Lihat semua</a>
+                        <a href="/post" style="font-size: 12px">Lihat semua</a>
                     </div>
                 </div>
             </div>

@@ -3,9 +3,11 @@
 use UniSharp\LaravelFilemanager\Lfm;
 use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\HomeController;
+use App\Http\Controllers\UsersController;
 use App\Http\Controllers\LaporanController;
 use App\Http\Controllers\ProfileController;
 use App\Http\Controllers\PostinganController;
+use App\Http\Controllers\TransaksiController;
 use App\Http\Controllers\PenjemputanController;
 use App\Http\Controllers\AdministratorController;
 
@@ -42,6 +44,7 @@ Route::middleware(['auth'])->group(function () {
     ]);
     Route::get('/administrator/delete/{id}', [AdministratorController::class, 'destroy']);
     Route::get('/post/delete/{id}', [PostinganController::class, 'destroy']);
+    Route::put('/profile/alamat/{id}', [ProfileController::class, 'updatealamat']);
 
     Route::resource('/profile', ProfileController::class)->names([
         'index' => 'Profile',
@@ -55,6 +58,14 @@ Route::middleware(['auth'])->group(function () {
     ]);
     Route::resource('/laporan', LaporanController::class)->names([
         'index' => 'Laporan',
+    ]);
+
+    Route::resource('/users', UsersController::class)->names([
+        'index' => 'Users',
+    ]);
+
+    Route::resource('/transaksi', TransaksiController::class)->names([
+        'index' => 'Transaksi',
     ]);
 });
 

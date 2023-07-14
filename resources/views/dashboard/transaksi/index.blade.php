@@ -5,8 +5,8 @@
         <div class="col-12">
             <div class="card mb-4">
                 <div class="card-header pb-0 d-flex justify-content-between">
-                    <h6>Penjemputan</h6>
-                    <a href="/penjemputan/create" class="btn btn-primary">Tambah <i class="fas fa-plus"></i></a>
+                    <h6>Transaksi</h6>
+                    <a href="/transaksi/create" class="btn btn-primary">Tambah <i class="fas fa-plus"></i></a>
                 </div>
                 @if (session()->has('success'))
                     @php
@@ -51,14 +51,14 @@
                                         </td>
                                         <td>
                                             <p class="text-xs font-weight-bold mb-0">
-                                                {{ $data ->role_id == 1 ? 'Petugas' : 'penjemputan' }}</p>
+                                                {{ $data ->role_id == 1 ? 'Petugas' : 'transaksi' }}</p>
                                             {{-- <p class="text-xs text-secondary mb-0">Organization</p> --}}
                                         </td>
                                         <td class="align-middle text-center">
-                                            <a href="/penjemputan/{{ $data ->id }}/edit" style="margin-right: 5px;"><i
+                                            <a href="/transaksi/{{ $data ->id }}/edit" style="margin-right: 5px;"><i
                                                     class="fas fa-edit text-warning"></i></a>
                                             <i class="fas fa-trash text-danger"
-                                                onclick="confirmationHapusData('/penjemputan/delete/{{ $data ->id }}')"></i>
+                                                onclick="confirmationHapusData('/transaksi/delete/{{ $data ->id }}')"></i>
                                         </td>
                                     </tr>
                                 @endforeach
