@@ -10,4 +10,15 @@ class Transaksi extends Model
     use HasFactory;
     protected $table = 'transaksi';
     protected $guarded = ['id'];
+
+    public function post()
+    {
+        return $this->belongsTo(Post::class);
+    }
+
+    public function user()
+    {
+        return $this->belongsTo(User::class);
+    }
+
 }

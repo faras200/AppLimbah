@@ -2,6 +2,7 @@
 
 use App\Http\Controllers\AdministratorController;
 use App\Http\Controllers\CommentsController;
+use App\Http\Controllers\DashboardController;
 use App\Http\Controllers\HomeController;
 use App\Http\Controllers\LaporanController;
 use App\Http\Controllers\PenjemputanController;
@@ -34,9 +35,7 @@ Route::middleware(['auth'])->group(function () {
         return view('dashboard.media.index');
     });
 
-    Route::get('/dashboard', function () {
-        return view('dashboard.index');
-    })->name('Dashboard');
+    Route::get('/dashboard', [DashboardController::class, 'index'])->name('Dashboard');
 
     Route::resource('/administrator', AdministratorController::class)->names([
         'index' => 'Administrator',
@@ -46,6 +45,7 @@ Route::middleware(['auth'])->group(function () {
     Route::get('/administrator/delete/{id}', [AdministratorController::class, 'destroy']);
     Route::get('/post/delete/{id}', [PostinganController::class, 'destroy']);
     Route::get('/users/delete/{id}', [UsersController::class, 'destroy']);
+    Route::get('/transaksi/delete/{id}', [TransaksiController::class, 'destroy']);
 
     Route::put('/profile/alamat/{id}', [ProfileController::class, 'updatealamat']);
 

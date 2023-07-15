@@ -49,7 +49,12 @@ class User extends Authenticatable
 
     public function post()
     {
-        return $this->belongsTo(Post::class);
+        return $this->hasOne(Post::class);
+    }
+
+    public function transaksi()
+    {
+        return $this->hasOne(Transaksi::class);
     }
 
     public function comments()

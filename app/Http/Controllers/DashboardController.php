@@ -2,14 +2,14 @@
 
 namespace App\Http\Controllers;
 
-use App\Http\Controllers\Controller;
-use App\Models\Comments;
+use App\Models\Penjemputan;
 use App\Models\Post;
 use App\Models\Transaksi;
+use App\Models\User;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 
-class TransaksiController extends Controller
+class DashboardController extends Controller
 {
     /**
      * Display a listing of the resource.
@@ -21,13 +21,18 @@ class TransaksiController extends Controller
         $user = Auth::user();
         if ($user->role_id == 0) {
             $datas = Transaksi::all();
+            $user = User::all()->count();
+            $transaksi = Transaksi::all()->count();
+            $postingan = Post::all()->count();
+            $penjemputan = Penjemputan::all()->count();
+            return view('dashboard.index', compact('datas', 'user', 'transaksi', 'postingan', 'penjemputan'));
         } elseif ($user->role_id == 2) {
             $datas = Transaksi::join('post', 'transaksi.post_id', 'post.id')
                 ->where('post.user_id', $user->id)
+                ->whereDate('transaksi.created_at', '=', date('Y-m-d'))
                 ->get();
+            return view('dashboard.index', compact('datas'));
         }
-
-        return view('dashboard.transaksi.index', compact('datas'));
 
     }
 
@@ -49,26 +54,7 @@ class TransaksiController extends Controller
      */
     public function store(Request $request)
     {
-        $validasi = $request->validate([
-            'post_id' => 'required|max:255',
-            'harga_deal' => 'required',
-            'type' => 'required',
-        ]);
-
-        $user = Auth::user();
-        $validasi['status'] = 'proses';
-        $validasi['deskripsi'] = $request->deskripsi;
-        $validasi['user_id'] = $user->id;
-
-        Post::where('id', $validasi['post_id'])->update([
-            'status' => 'Non-Aktif',
-        ]);
-        $transaksi = Transaksi::create($validasi);
-        return response()->json([
-            'success' => true,
-            'transaksi' => $transaksi,
-        ]);
-        //return redirect('/post')->with('success', 'Berhasil Menambah Post!!');
+        //
     }
 
     /**
@@ -79,12 +65,7 @@ class TransaksiController extends Controller
      */
     public function show($id)
     {
-        $transaksi = Transaksi::firstwhere('id', $id);
-        return view('dashboard.transaksi.show', [
-            'transaksi' => $transaksi,
-            'data' => Post::firstwhere('id', $transaksi->post_id),
-            'komentars' => Comments::where('post_id', $transaksi->post_id)->get(),
-        ]);
+        //
     }
 
     /**
@@ -118,7 +99,6 @@ class TransaksiController extends Controller
      */
     public function destroy($id)
     {
-        Transaksi::destroy($id);
-        return redirect('/transaksi')->with('success', 'Berhasil Menghapus Transaksi!!');
+        //
     }
 }

@@ -5,7 +5,7 @@
         <div class="col-12">
             <div class="card mb-4">
                 <div class="card-header pb-0 d-flex justify-content-between">
-                    <h6>Detail Postingan</h6>
+                    <h6>Detail Transaksi</h6>
                 </div>
                 @if (session()->has('success'))
                     @php
@@ -30,6 +30,13 @@
                             </div>
                         </div>
                         <div class="col-md-6">
+                            <div class="form-grouphas-danger">
+                                <label class="form-control-label" for="">Pelanggan</label>
+                                <input type="text" class="form-control @error('nama_barang') is-invalid @enderror"
+                                    value="{{ $data->user->name }}" disabled name="nama_barang">
+                            </div>
+                        </div>
+                        <div class="col-md-6">
                             <div class="form-group @error('nama_barang') has-danger @enderror">
                                 <label class="form-control-label" for="">Jenis Barang</label>
                                 <input type="text" class="form-control @error('nama_barang') is-invalid @enderror"
@@ -38,16 +45,24 @@
                         </div>
                         <div class="col-md-6">
                             <div class="form-group @error('nama_barang') has-danger @enderror">
-                                <label class="form-control-label" for="">Harga Barang</label>
+                                <label class="form-control-label" for="">Harga Awal</label>
                                 <input type="text" class="form-control @error('nama_barang') is-invalid @enderror"
                                     value=" Rp. {{ number_format($data->harga, 0, ',', '.') }}" disabled name="nama_barang">
                             </div>
                         </div>
                         <div class="col-md-6">
-                            <div class="form-group @error('status') has-danger @enderror">
-                                <label class="form-control-label" for="">Status</label>
+                            <div class="form-group @error('nama_barang') has-danger @enderror">
+                                <label class="form-control-label" for="">Harga Deal</label>
                                 <input type="text" class="form-control @error('nama_barang') is-invalid @enderror"
-                                    value=" {{ $data->status }}" disabled name="status">
+                                    value=" Rp. {{ number_format($transaksi->harga_deal, 0, ',', '.') }}" disabled
+                                    name="nama_barang">
+                            </div>
+                        </div>
+                        <div class="col-md-6">
+                            <div class="form-group @error('status') has-danger @enderror">
+                                <label class="form-control-label" for="">Status Transaksi</label>
+                                <input type="text" class="form-control @error('nama_barang') is-invalid @enderror"
+                                    value=" {{ $transaksi->status }}" disabled name="status">
                             </div>
                         </div>
                         <div class="col-md-6">
@@ -62,18 +77,10 @@
                         <p> {!! $data->deskripsi_barang !!}</p>
                     </div>
 
-                    <div class="row">
-                        @if ($data->user_id == Auth::user()->id)
-                            <div class="col-md-12 d-flex justify-content-center ">
-                                <button class="btn col-md-10 bg-gradient-primary" style="padding: 15px"
-                                    onclick="buatTransaksi({{ $data->harga }})"> Proses
-                                    Transaksi di Harga Awal</button>
-                            </div>
-                        @endif
-                    </div>
-                </div>
 
-                <div class="col-12">
+
+                </div>
+                {{-- <div class="col-12">
                     <div class="card blur shadow-blur max-height-vh-80">
                         <div class="card-header shadow-lg">
                             <div class="row">
@@ -234,133 +241,151 @@
                             </form>
                         </div>
                     </div>
-                </div>
+                </div> --}}
             </div>
 
-            <!-- Modal -->
-            <div class="modal fade" id="exampleModal" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel"
-                aria-hidden="true">
-                <div class="modal-dialog modal-dialog-centered" role="document">
-                    <div class="modal-content">
-                        <div class="modal-header">
-                            <h5 class="modal-title" id="exampleModalLabel">Konfirmasi Penawaran</h5>
-                            <button type="button" class="btn-close text-dark" data-bs-dismiss="modal"
-                                aria-label="Close">
-                                <span aria-hidden="true">&times;</span>
-                            </button>
+        </div>
+    </div>
+
+    <div class="row">
+        <div class="col-md-12">
+            <div class="card">
+                <h6 class="text-center mt-4">Data Penjemputan</h6>
+                <div class="card-body text-center">
+                    <p>Tidak Ada Data Penjemputan</p>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <div class="row mt-4">
+
+        <div class="col-md-12 d-flex justify-content-center ">
+            <button class="btn col-md-10 bg-gradient-primary" style="padding: 15px"
+                onclick="selesaiTransaksi({{ $data->id }})"> Selesaikan Transaksi Ini</button>
+        </div>
+
+    </div>
+
+    <!-- Modal -->
+    <div class="modal fade" id="exampleModal" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel"
+        aria-hidden="true">
+        <div class="modal-dialog modal-dialog-centered" role="document">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h5 class="modal-title" id="exampleModalLabel">Konfirmasi Penawaran</h5>
+                    <button type="button" class="btn-close text-dark" data-bs-dismiss="modal" aria-label="Close">
+                        <span aria-hidden="true">&times;</span>
+                    </button>
+                </div>
+                <div class="modal-body">
+                    <input type="hidden" id="harga_deal" value="">
+                    <input type="hidden" id="status" value="{{ $data->status }}">
+                    <p>Kamu yakin deal dengan harga penawaran ini?</p>
+                    <div class="row mt-4 mb-4">
+                        <h4 class="text-center"> Deal di Harga :</h4>
+                        <h3 class="text-center" style="font-weight: 800" id="harga"></h3>
+                    </div>
+
+                    <div class="row d-flex justify-content-center text-center">
+                        <p>Kamu mau transaksi dimana?</p>
+                        <div class="col-12 d-flex justify-content-center">
+                            <div class="form-check mb-3" style="margin-right:15px">
+                                <input class="form-check-input" type="radio" name="type" value="ke-lokasi"
+                                    id="customRadio1">
+                                <label class="custom-control-label" for="customRadio1">Datang Ke Lokasi</label>
+                            </div>
+                            <div class="form-check" style="margin-left:15px">
+                                <input class="form-check-input" type="radio" name="type" value="di-rumah"
+                                    id="customRadio2">
+                                <label class="custom-control-label" for="customRadio2">Jemput Di rumah</label>
+                            </div>
                         </div>
-                        <div class="modal-body">
-                            <input type="hidden" id="harga_deal" value="">
-                            <input type="hidden" id="status" value="{{ $data->status }}">
-                            <p>Kamu yakin deal dengan harga penawaran ini?</p>
-                            <div class="row mt-4 mb-4">
-                                <h4 class="text-center"> Deal di Harga :</h4>
-                                <h3 class="text-center" style="font-weight: 800" id="harga"></h3>
-                            </div>
+                    </div>
 
-                            <div class="row d-flex justify-content-center text-center">
-                                <p>Kamu mau transaksi dimana?</p>
-                                <div class="col-12 d-flex justify-content-center">
-                                    <div class="form-check mb-3" style="margin-right:15px">
-                                        <input class="form-check-input" type="radio" name="type" value="ke-lokasi"
-                                            id="customRadio1">
-                                        <label class="custom-control-label" for="customRadio1">Datang Ke Lokasi</label>
-                                    </div>
-                                    <div class="form-check" style="margin-left:15px">
-                                        <input class="form-check-input" type="radio" name="type" value="di-rumah"
-                                            id="customRadio2">
-                                        <label class="custom-control-label" for="customRadio2">Jemput Di rumah</label>
-                                    </div>
-                                </div>
-                            </div>
+                    <div class="row">
+                        <div class="form-group">
+                            <label class="form-control-label" for="">Deskripsi (optional)</label>
+                            <textarea class="form-control @error('alamat_lengkap') is-invalid @enderror" name="deskripsi" rows="5"
+                                id="deskripsi" placeholder="Tambah deskripsi transaksi tambahan"></textarea>
 
-                            <div class="row">
-                                <div class="form-group">
-                                    <label class="form-control-label" for="">Deskripsi (optional)</label>
-                                    <textarea class="form-control @error('alamat_lengkap') is-invalid @enderror" name="deskripsi" rows="5"
-                                        id="deskripsi" placeholder="Tambah deskripsi transaksi tambahan"></textarea>
-
-                                </div>
-                            </div>
-                        </div>
-                        <div class="modal-footer">
-                            <button type="button" class="btn bg-gradient-secondary"
-                                data-bs-dismiss="modal">Close</button>
-                            <button type="button" onclick="prosestransaksi()" class="btn bg-gradient-primary">Proses
-                                Transaksi</button>
                         </div>
                     </div>
                 </div>
+                <div class="modal-footer">
+                    <button type="button" class="btn bg-gradient-secondary" data-bs-dismiss="modal">Close</button>
+                    <button type="button" onclick="prosestransaksi()" class="btn bg-gradient-primary">Proses
+                        Transaksi</button>
+                </div>
             </div>
-
-            <script>
-                (function() { // DON'T EDIT BELOW THIS LINE
-                    var d = document,
-                        s = d.createElement('script');
-                    s.src = 'https://skripsifaras.disqus.com/embed.js';
-                    s.setAttribute('data-timestamp', +new Date());
-                    (d.head || d.body).appendChild(s);
-                })();
-
-                function buatTransaksi(harga) {
-                    const status = $('#status').val();
-                    if (status == 'Non-Aktif') {
-                        swal("Peringatan Postingan Ini Tidak Aktif!!",
-                            "Ubah Postingan Ini menjadi aktif untuk bisa lanjut ke transaksi!", "warning");
-                        return false;
-                    }
-                    $('#exampleModal').modal('show');
-                    const total = toRp(harga);
-                    $('#harga_deal').val(harga);
-                    $('#harga').html(total);
-                }
-
-                function prosestransaksi() {
-                    var radioValue = $("input[name='type']:checked").val();
-                    if (radioValue == undefined) {
-                        swal("Peringatan!!", "Pilih lokasi transaksi dulu!", "warning");
-                    }
-                    const deskripsi = $('#deskripsi').val();
-                    const csrf = $('meta[name="csrf-token"]').attr('content');
-                    const postid = $('#post_id').val();
-                    const harga = $('#harga_deal').val()
-                    console.log(harga);
-                    $.ajax({
-                        type: 'POST',
-                        url: "{{ route('create.transaksi') }}",
-                        data: {
-                            '_token': csrf,
-                            'post_id': postid,
-                            'harga_deal': harga,
-                            'deskripsi': deskripsi,
-                            'type': radioValue
-                        },
-
-                        success: function(data) {
-                            if (data.success) {
-                                $('#exampleModal').modal('hide');
-                                if (data.type == 'ke-lokasi') {
-                                    swal("Transaksi Berhasil Dibuat!",
-                                        "Segera selesaikan transaksi, dengan datang ke lokasi cv izhar!", "success");
-                                } else {
-                                    swal("Transaksi Berhasil Dibuat!", "Tunggu petugas jalan ke rumah kamu oke!",
-                                        "success");
-
-                                }
-                                setTimeout(function() {
-                                    window.location.href = "/transaksi";
-                                }, 1000);
-                            }
-                        }
-
-                    });
-                    console.log(csrf);
-                    console.log(radioValue);
-                }
-            </script>
-            <noscript>Please enable JavaScript to view the <a href="https://disqus.com/?ref_noscript">comments powered by
-                    Disqus.</a></noscript>
         </div>
     </div>
-    </div>
+
+    <script>
+        (function() { // DON'T EDIT BELOW THIS LINE
+            var d = document,
+                s = d.createElement('script');
+            s.src = 'https://skripsifaras.disqus.com/embed.js';
+            s.setAttribute('data-timestamp', +new Date());
+            (d.head || d.body).appendChild(s);
+        })();
+
+        function buatTransaksi(harga) {
+            const status = $('#status').val();
+            if (status == 'Non-Aktif') {
+                swal("Peringatan Postingan Ini Tidak Aktif!!",
+                    "Ubah Postingan Ini menjadi aktif untuk bisa lanjut ke transaksi!", "warning");
+                return false;
+            }
+            $('#exampleModal').modal('show');
+            const total = toRp(harga);
+            $('#harga_deal').val(harga);
+            $('#harga').html(total);
+        }
+
+        function prosestransaksi() {
+            var radioValue = $("input[name='type']:checked").val();
+            if (radioValue == undefined) {
+                swal("Peringatan!!", "Pilih lokasi transaksi dulu!", "warning");
+            }
+            const deskripsi = $('#deskripsi').val();
+            const csrf = $('meta[name="csrf-token"]').attr('content');
+            const postid = $('#post_id').val();
+            const harga = $('#harga_deal').val()
+            console.log(harga);
+            $.ajax({
+                type: 'POST',
+                url: "{{ route('create.transaksi') }}",
+                data: {
+                    '_token': csrf,
+                    'post_id': postid,
+                    'harga_deal': harga,
+                    'deskripsi': deskripsi,
+                    'type': radioValue
+                },
+
+                success: function(data) {
+                    if (data.success) {
+                        $('#exampleModal').modal('hide');
+                        if (data.type == 'ke-lokasi') {
+                            swal("Transaksi Berhasil Dibuat!",
+                                "Segera selesaikan transaksi, dengan datang ke lokasi cv izhar!", "success");
+                        } else {
+                            swal("Transaksi Berhasil Dibuat!", "Tunggu petugas jalan ke rumah kamu oke!",
+                                "success");
+
+                        }
+                        setTimeout(function() {
+                            window.location.href = "/transaksi";
+                        }, 1000);
+                    }
+                }
+
+            });
+            console.log(csrf);
+            console.log(radioValue);
+        }
+    </script>
+    <noscript>Please enable JavaScript to view the <a href="https://disqus.com/?ref_noscript">comments powered by
+            Disqus.</a></noscript>
 @endsection
