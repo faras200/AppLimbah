@@ -252,7 +252,43 @@
             <div class="card">
                 <h6 class="text-center mt-4">Data Penjemputan</h6>
                 <div class="card-body text-center">
-                    <p>Tidak Ada Data Penjemputan</p>
+                    <div class="row">
+                        @if ($penjemputan)
+                            <div class="col-md-6">
+                                <div class="form-group >
+                                <label class="form-control-label"
+                                    for="">Petugas</label>
+                                    <input type="text" class="form-control" value=" {{ $penjemputan->user->name }}"
+                                        disabled name="nama_barang">
+                                </div>
+                            </div>
+                            <div class="col-md-6">
+                                <div class="form-group >
+                            <label class="form-control-label"
+                                    for="">Status</label>
+                                    <input type="text" class="form-control"
+                                        value=" {{ $penjemputan->status == 'jalan' ? 'Petugas Sedang Jalan ke Tempat Kamu' : 'Sudah di jemput oleh petugas' }}"
+                                        disabled name="nama_barang">
+                                </div>
+                            </div>
+                            <div class="col-md-12">
+                                <div class="form-group >
+                            <label class="form-control-label"
+                                    for="">Detail</label>
+                                    <textarea class="form-control" disabled> {{ $penjemputan->deskripsi ?? 'Belum ada detail informasi' }} </textarea>
+                                </div>
+                            </div>
+                            <div class="col-md-12 d-flex justify-content-center text-center">
+                                <div class="form-group @error('nama_barang') has-danger @enderror">
+                                    <label class="form-control-label" for="">Foto Penjemputan</label> <br>
+                                    <img width="100%" height="300px"
+                                        src="{{ $penjemputan->foto ?? asset('assets/img/not-found.png') }}" alt="">
+                                </div>
+                            </div>
+                        @else
+                            <p>Tidak Ada Data Penjemputan</p>
+                        @endif
+                    </div>
                 </div>
             </div>
         </div>
@@ -260,10 +296,16 @@
 
     <div class="row mt-4">
 
-        <div class="col-md-12 d-flex justify-content-center ">
-            <button class="btn col-md-10 bg-gradient-primary" style="padding: 15px"
-                onclick="selesaiTransaksi({{ $data->id }})"> Selesaikan Transaksi Ini</button>
-        </div>
+        @if ($transaksi->status == 'Selesai')
+            <div class="col-md-12 d-flex justify-content-center ">
+                <h6>Transaksi Sudah Selesai Terimakasi</h6>
+            </div>
+        @else
+            <div class="col-md-12 d-flex justify-content-center ">
+                <button class="btn col-md-10 bg-gradient-primary" style="padding: 15px"
+                    onclick="selesaiTransaksi({{ $transaksi->id }})"> Selesaikan Transaksi Ini</button>
+            </div>
+        @endif
 
     </div>
 
@@ -382,8 +424,44 @@
                 }
 
             });
-            console.log(csrf);
-            console.log(radioValue);
+        }
+
+        function selesaiTransaksi(trxid) {
+            swal({
+                title: 'Kamu Yakin Menyelesaikan Transaksi Ini ?',
+                text: 'Aksi ini tidak dapat diulang lagi!!!',
+                icon: 'warning',
+                dangerMode: true,
+                buttons: ['Tidak', 'Yakin']
+
+            }).then((result) => {
+                /* Read more about isConfirmed, isDenied below */
+                if (result) {
+                    const csrf = $('meta[name="csrf-token"]').attr('content');
+                    $.ajax({
+                        type: 'POST',
+                        url: "{{ route('transaksi.selesai') }}",
+                        data: {
+                            '_token': csrf,
+                            'trxid': trxid,
+                        },
+
+                        success: function(data) {
+                            if (data.success) {
+                                $('#exampleModal').modal('hide');
+                                swal("Transaksi Selesai!",
+                                    "Transaksi sudah selesai, Terimakasi sudah mempercayakan cv izhar!",
+                                    "success");
+                                setTimeout(function() {
+                                    window.location.href = "/transaksi";
+                                }, 2000);
+                            }
+                        }
+
+                    });
+                }
+            })
+
         }
     </script>
     <noscript>Please enable JavaScript to view the <a href="https://disqus.com/?ref_noscript">comments powered by

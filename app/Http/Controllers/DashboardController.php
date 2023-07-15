@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers;
 
+use App\Models\Alamat;
 use App\Models\Penjemputan;
 use App\Models\Post;
 use App\Models\Transaksi;
@@ -20,18 +21,27 @@ class DashboardController extends Controller
     {
         $user = Auth::user();
         if ($user->role_id == 0) {
-            $datas = Transaksi::all();
-            $user = User::all()->count();
+            $datas = Transaksi::whereDate('transaksi.created_at', '=', date('Y-m-d'))
+                ->get();
+            $user = User::where('role_id', 2)->count();
             $transaksi = Transaksi::all()->count();
-            $postingan = Post::all()->count();
+            $postingan = Post::where('status', 'Aktif')->count();
             $penjemputan = Penjemputan::all()->count();
             return view('dashboard.index', compact('datas', 'user', 'transaksi', 'postingan', 'penjemputan'));
         } elseif ($user->role_id == 2) {
-            $datas = Transaksi::join('post', 'transaksi.post_id', 'post.id')
+            $datas = Transaksi::select('transaksi.*')->join('post', 'transaksi.post_id', 'post.id')
                 ->where('post.user_id', $user->id)
                 ->whereDate('transaksi.created_at', '=', date('Y-m-d'))
                 ->get();
-            return view('dashboard.index', compact('datas'));
+            $alamat = Alamat::where('user_id', $user->id)->count();
+            return view('dashboard.index', compact('datas', 'alamat'));
+        } else {
+            return view('dashboard.index', [
+                'transaksi' => Transaksi::where('type', 'di-rumah')
+                    ->where('status', 'Proses')
+                    ->whereDate('transaksi.created_at', '=', date('Y-m-d'))
+                    ->get(),
+            ]);
         }
 
     }

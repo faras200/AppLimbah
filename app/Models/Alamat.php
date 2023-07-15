@@ -14,6 +14,11 @@ class Alamat extends Model
 
     public function user()
     {
-        return $this->hasOne(User::class);
+        return $this->belongsTo(User::class);
+    }
+
+    public function penjemputan()
+    {
+        return $this->hasMany(Penjemputan::class);
     }
 }

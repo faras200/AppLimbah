@@ -78,7 +78,7 @@ unset($__errorArgs, $__bag); ?>
                                     <label class="form-control-label" for="">Role</label>
                                     <select class="form-control" name="role_id">
                                         <option value="">Pilih Role</option>
-                                        <option value="1">Petugas</option>
+                                        <option value="1">Pegawai</option>
                                         <option value="0">Administrator</option>
                                     </select>
                                     <?php $__errorArgs = ['role_id'];

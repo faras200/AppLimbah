@@ -2,6 +2,8 @@
 
 namespace App\Http\Controllers;
 
+use App\Models\Penjemputan;
+use App\Models\Transaksi;
 use Illuminate\Http\Request;
 
 class LaporanController extends Controller
@@ -13,8 +15,9 @@ class LaporanController extends Controller
      */
     public function index()
     {
-        return view('dashboard.laporan.index',[
-            'datas' => []
+        return view('dashboard.laporan.index', [
+            'transaksi' => Transaksi::where('status', 'selesai')->get(),
+            'penjemputan' => Penjemputan::where('status', 'selesai')->get(),
         ]);
     }
 

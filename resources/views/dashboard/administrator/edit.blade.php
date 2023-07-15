@@ -39,11 +39,11 @@
                                     <label class="form-control-label" for="">Role</label>
                                     <select class="form-control" name="role_id">
                                         <option value="{{ $admin->role_id }}" selected>
-                                            {{ $admin->role_id == 1 ? 'Petugas' : 'Administrator' }} </option>
+                                            {{ $admin->role_id == 1 ? 'Pegawai' : 'Administrator' }} </option>
                                         @if ($admin->role_id == 1)
                                             <option value="0">Administrator</option>
                                         @else
-                                            <option value="1">Petugas</option>
+                                            <option value="1">Pegawai</option>
                                         @endif
                                     </select>
                                     @error('role_id')

@@ -4,6 +4,7 @@ namespace App\Http\Controllers;
 
 use App\Http\Controllers\Controller;
 use App\Models\Comments;
+use App\Models\Penjemputan;
 use App\Models\Post;
 use App\Models\Transaksi;
 use Illuminate\Http\Request;
@@ -22,7 +23,7 @@ class TransaksiController extends Controller
         if ($user->role_id == 0) {
             $datas = Transaksi::all();
         } elseif ($user->role_id == 2) {
-            $datas = Transaksi::join('post', 'transaksi.post_id', 'post.id')
+            $datas = Transaksi::select('transaksi.*')->join('post', 'transaksi.post_id', 'post.id')
                 ->where('post.user_id', $user->id)
                 ->get();
         }
@@ -56,7 +57,7 @@ class TransaksiController extends Controller
         ]);
 
         $user = Auth::user();
-        $validasi['status'] = 'proses';
+        $validasi['status'] = 'Proses';
         $validasi['deskripsi'] = $request->deskripsi;
         $validasi['user_id'] = $user->id;
 
@@ -84,6 +85,7 @@ class TransaksiController extends Controller
             'transaksi' => $transaksi,
             'data' => Post::firstwhere('id', $transaksi->post_id),
             'komentars' => Comments::where('post_id', $transaksi->post_id)->get(),
+            'penjemputan' => Penjemputan::firstwhere('transaksi_id', $transaksi->id),
         ]);
     }
 
@@ -110,6 +112,17 @@ class TransaksiController extends Controller
         //
     }
 
+    public function selesai(Request $request)
+    {
+        $trx = Transaksi::where('id', $request->trxid)->update(['status' => 'Selesai']);
+
+        return response()->json([
+            'success' => true,
+            'transaksi' => $trx,
+        ]);
+
+    }
+
     /**
      * Remove the specified resource from storage.
      *
@@ -119,6 +132,7 @@ class TransaksiController extends Controller
     public function destroy($id)
     {
         Transaksi::destroy($id);
+
         return redirect('/transaksi')->with('success', 'Berhasil Menghapus Transaksi!!');
     }
 }

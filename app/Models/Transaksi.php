@@ -21,4 +21,9 @@ class Transaksi extends Model
         return $this->belongsTo(User::class);
     }
 
+    public function penjemputan()
+    {
+        return $this->hasMany(Penjemputan::class);
+    }
+
 }

@@ -17,7 +17,7 @@
 
                     </h5>
                     <p class="mb-0 font-weight-bold text-sm">
-                        <?php echo e(($user->role_id == 1 ? 'Petugas' : $user->role_id == 0) ? 'Administrator' : 'User Biasa'); ?>
+                        <?php echo e($user->role_id == 1 ? 'Pegawai' : ($user->role_id == 0 ? 'Administrator' : 'User Biasa')); ?>
 
                     </p>
                 </div>
@@ -187,7 +187,8 @@ unset($__errorArgs, $__bag); ?>
                                 <div class="form-group">
                                     <label class="form-control-label" for="">Jenis Alamat</label>
                                     <select class="form-control" name="jenis_alamat">
-                                        <option value="<?php echo e($alamat->jenis_alamat ?? ''); ?>" selected ><?php echo e($alamat->jenis_alamat ?? 'Pilih Alamat'); ?></option>
+                                        <option value="<?php echo e($alamat->jenis_alamat ?? ''); ?>" selected>
+                                            <?php echo e($alamat->jenis_alamat ?? 'Pilih Alamat'); ?></option>
                                         <option value="Rumah">Rumah</option>
                                         <option value="Kantor">Kantor</option>
                                         <option value="Gudang">Gudang</option>
@@ -223,7 +224,8 @@ $message = $__bag->first($__errorArgs[0]); ?> is-invalid <?php unset($message);
 if (isset($__messageOriginal)) { $message = $__messageOriginal; }
 endif;
 unset($__errorArgs, $__bag); ?>"
-                                        value="<?php echo e(old('patokan', $alamat->patokan ?? '')); ?>" name="patokan" placeholder="cth: cat rumah / warna pagar">
+                                        value="<?php echo e(old('patokan', $alamat->patokan ?? '')); ?>" name="patokan"
+                                        placeholder="cth: cat rumah / warna pagar">
                                     <?php $__errorArgs = ['patokan'];
 $__bag = $errors->getBag($__errorArgs[1] ?? 'default');
 if ($__bag->has($__errorArgs[0])) :
@@ -236,7 +238,7 @@ endif;
 unset($__errorArgs, $__bag); ?>
                                 </div>
                             </div>
-                            
+
                             <div class="col-md-6">
                                 <div class="form-group <?php $__errorArgs = ['lang'];
 $__bag = $errors->getBag($__errorArgs[1] ?? 'default');
@@ -304,7 +306,8 @@ unset($__errorArgs, $__bag); ?>
                             <div class=" col-md-12 mx-auto" id="maps">
                             </div>
                             <div class=" col-md-12 text-center">
-                                <button type="button" class="btn btn-secondary" onclick="getLocation()">Refresh Map</button>
+                                <button type="button" class="btn btn-secondary" onclick="getLocation()">Refresh
+                                    Map</button>
                             </div>
                             <div class="col-md-12">
                                 <div class="form-group <?php $__errorArgs = ['alamat_lengkap'];
@@ -368,8 +371,10 @@ unset($__errorArgs, $__bag); ?>
         function showPosition(position) {
             document.getElementById("lang").value = position.coords.longitude;
             document.getElementById("lat").value = position.coords.latitude;
-            const mapurl =  position.coords.latitude + "," +position.coords.longitude;
-            $("#maps").html(`<iframe width="100%" height="500" frameborder="0" scrolling="no" marginheight="0" marginwidth="0" src="https://maps.google.com/maps?width=100%25&amp;height=500&amp;hl=en&amp;q=${mapurl}+(Home)&amp;t=&amp;z=17&amp;ie=UTF8&amp;iwloc=B&amp;output=embed"><a href="https://www.maps.ie/population/">Population mapping</a></iframe>`);
+            const mapurl = position.coords.latitude + "," + position.coords.longitude;
+            $("#maps").html(
+                `<iframe width="100%" height="500" frameborder="0" scrolling="no" marginheight="0" marginwidth="0" src="https://maps.google.com/maps?width=100%25&amp;height=500&amp;hl=en&amp;q=${mapurl}+(Home)&amp;t=&amp;z=17&amp;ie=UTF8&amp;iwloc=B&amp;output=embed"><a href="https://www.maps.ie/population/">Population mapping</a></iframe>`
+            );
             console.log(mapurl)
             x.innerHTML = "Latitude: " + position.coords.latitude +
                 "<br>Longitude: " + position.coords.longitude +

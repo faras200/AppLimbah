@@ -46,6 +46,7 @@ Route::middleware(['auth'])->group(function () {
     Route::get('/post/delete/{id}', [PostinganController::class, 'destroy']);
     Route::get('/users/delete/{id}', [UsersController::class, 'destroy']);
     Route::get('/transaksi/delete/{id}', [TransaksiController::class, 'destroy']);
+    Route::get('/penjemputan/delete/{id}', [PenjemputanController::class, 'destroy']);
 
     Route::put('/profile/alamat/{id}', [ProfileController::class, 'updatealamat']);
 
@@ -58,6 +59,7 @@ Route::middleware(['auth'])->group(function () {
     ]);
     Route::resource('/penjemputan', PenjemputanController::class)->names([
         'index' => 'Penjemputan',
+        'store' => 'create.penjemputan',
     ]);
     Route::resource('/laporan', LaporanController::class)->names([
         'index' => 'Laporan',
@@ -71,6 +73,9 @@ Route::middleware(['auth'])->group(function () {
         'index' => 'Transaksi',
         'store' => 'create.transaksi',
     ]);
+
+    Route::post('/transaksi/selesai', [TransaksiController::class, 'selesai'])->name('transaksi.selesai');
+    Route::post('/penjemputan/selesai', [PenjemputanController::class, 'selesai'])->name('penjemputan.selesai');
 
     Route::resource('/komentar', CommentsController::class);
 });

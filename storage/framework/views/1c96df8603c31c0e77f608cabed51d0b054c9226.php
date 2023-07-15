@@ -3,7 +3,7 @@
         <div class="col-12">
             <div class="card mb-4">
                 <div class="card-header pb-0 d-flex justify-content-between">
-                    <h6>Postingan</h6>
+                    <h6>Detail Postingan</h6>
                 </div>
                 <?php if(session()->has('success')): ?>
                     <?php
@@ -410,6 +410,7 @@ unset($__errorArgs, $__bag); ?>" name="deskripsi" rows="5"
 
                         success: function(data) {
                             if (data.success) {
+                                $('#exampleModal').modal('hide');
                                 if (data.type == 'ke-lokasi') {
                                     swal("Transaksi Berhasil Dibuat!",
                                         "Segera selesaikan transaksi, dengan datang ke lokasi cv izhar!", "success");
@@ -420,7 +421,7 @@ unset($__errorArgs, $__bag); ?>" name="deskripsi" rows="5"
                                 }
                                 setTimeout(function() {
                                     window.location.href = "/transaksi";
-                                }, 2000);
+                                }, 1000);
                             }
                         }
 

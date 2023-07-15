@@ -27,8 +27,8 @@
                                     </th>
                                     <th class="text-uppercase text-secondary text-xxs font-weight-bolder opacity-7 ps-2">
                                         Email</th>
-                                    <th
-                                    <th class="text-uppercase text-secondary text-xxs font-weight-bolder opacity-7 ps-2">
+                                    <th <th
+                                        class="text-uppercase text-secondary text-xxs font-weight-bolder opacity-7 ps-2">
                                         Role</th>
                                     <th
                                         class="text-center text-uppercase text-secondary text-xxs font-weight-bolder opacity-7">
@@ -40,7 +40,7 @@
                                     <tr>
                                         <td>
                                             <div class="d-flex px-2 py-1">
-                                            
+
                                                 <div class="d-flex flex-column justify-content-center">
                                                     <h6 class="mb-0 text-sm"><?php echo e($admin->name); ?></h6>
                                                     
@@ -54,7 +54,7 @@
                                         </td>
                                         <td>
                                             <p class="text-xs font-weight-bold mb-0">
-                                                <?php echo e($admin->role_id == 1 ? 'Petugas' : 'Administrator'); ?></p>
+                                                <?php echo e($admin->role_id == 1 ? 'Pegawai' : 'Administrator'); ?></p>
                                             
                                         </td>
                                         <td class="align-middle text-center">

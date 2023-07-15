@@ -44,7 +44,7 @@ class User extends Authenticatable
 
     public function alamat()
     {
-        return $this->belongsTo(Alamat::class);
+        return $this->hasOne(Alamat::class);
     }
 
     public function post()
@@ -55,6 +55,11 @@ class User extends Authenticatable
     public function transaksi()
     {
         return $this->hasOne(Transaksi::class);
+    }
+
+    public function penjemputan()
+    {
+        return $this->hasMany(Penjemputan::class);
     }
 
     public function comments()

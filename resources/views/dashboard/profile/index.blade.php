@@ -18,7 +18,7 @@
                         {{ $user->name }}
                     </h5>
                     <p class="mb-0 font-weight-bold text-sm">
-                        {{ ($user->role_id == 1 ? 'Petugas' : $user->role_id == 0) ? 'Administrator' : 'User Biasa' }}
+                        {{ $user->role_id == 1 ? 'Pegawai' : ($user->role_id == 0 ? 'Administrator' : 'User Biasa') }}
                     </p>
                 </div>
             </div>
@@ -123,7 +123,7 @@
             @endif
             <div class="card mb-4">
                 <div class="card-body px-0 pt-0 pb-2">
-                    <form action="/profile/alamat/{{$alamat ? $alamat->id : 'create'}}" method="POST">
+                    <form action="/profile/alamat/{{ $alamat ? $alamat->id : 'create' }}" method="POST">
                         @method('put')
                         @csrf
                         <div class="row" style="padding: 10px 15px !important;">
@@ -131,7 +131,8 @@
                                 <div class="form-group">
                                     <label class="form-control-label" for="">Jenis Alamat</label>
                                     <select class="form-control" name="jenis_alamat">
-                                        <option value="{{$alamat->jenis_alamat ?? '' }}" selected >{{$alamat->jenis_alamat ?? 'Pilih Alamat' }}</option>
+                                        <option value="{{ $alamat->jenis_alamat ?? '' }}" selected>
+                                            {{ $alamat->jenis_alamat ?? 'Pilih Alamat' }}</option>
                                         <option value="Rumah">Rumah</option>
                                         <option value="Kantor">Kantor</option>
                                         <option value="Gudang">Gudang</option>
@@ -146,13 +147,14 @@
                                     <label class="form-control-label" for="">Patokan</label>
                                     <input type="text" id="patokan"
                                         class="form-control @error('patokan') is-invalid @enderror"
-                                        value="{{ old('patokan', $alamat->patokan ?? '') }}" name="patokan" placeholder="cth: cat rumah / warna pagar">
+                                        value="{{ old('patokan', $alamat->patokan ?? '') }}" name="patokan"
+                                        placeholder="cth: cat rumah / warna pagar">
                                     @error('patokan')
                                         <p class="text-danger">{{ $message }}</p>
                                     @enderror
                                 </div>
                             </div>
-                            
+
                             <div class="col-md-6">
                                 <div class="form-group @error('lang') has-danger @enderror">
                                     <label class="form-control-label" for="">longitude</label>
@@ -178,13 +180,14 @@
                             <div class=" col-md-12 mx-auto" id="maps">
                             </div>
                             <div class=" col-md-12 text-center">
-                                <button type="button" class="btn btn-secondary" onclick="getLocation()">Refresh Map</button>
+                                <button type="button" class="btn btn-secondary" onclick="getLocation()">Refresh
+                                    Map</button>
                             </div>
                             <div class="col-md-12">
                                 <div class="form-group @error('alamat_lengkap') has-danger @enderror">
                                     <label class="form-control-label" for="">Alamat Lengkap</label>
                                     <textarea class="form-control @error('alamat_lengkap') is-invalid @enderror" name="alamat_lengkap" rows="5"
-                                        placeholder="cth: nomor rumah, Rt/Rw, nama jalan, kode pos">{{old('alamat_lengkap', $alamat->alamat_lengkap ?? null)}}</textarea>
+                                        placeholder="cth: nomor rumah, Rt/Rw, nama jalan, kode pos">{{ old('alamat_lengkap', $alamat->alamat_lengkap ?? null) }}</textarea>
                                     @error('alamat_lengkap')
                                         <p class="text-danger">{{ $message }}</p>
                                     @enderror
@@ -221,8 +224,10 @@
         function showPosition(position) {
             document.getElementById("lang").value = position.coords.longitude;
             document.getElementById("lat").value = position.coords.latitude;
-            const mapurl =  position.coords.latitude + "," +position.coords.longitude;
-            $("#maps").html(`<iframe width="100%" height="500" frameborder="0" scrolling="no" marginheight="0" marginwidth="0" src="https://maps.google.com/maps?width=100%25&amp;height=500&amp;hl=en&amp;q=${mapurl}+(Home)&amp;t=&amp;z=17&amp;ie=UTF8&amp;iwloc=B&amp;output=embed"><a href="https://www.maps.ie/population/">Population mapping</a></iframe>`);
+            const mapurl = position.coords.latitude + "," + position.coords.longitude;
+            $("#maps").html(
+                `<iframe width="100%" height="500" frameborder="0" scrolling="no" marginheight="0" marginwidth="0" src="https://maps.google.com/maps?width=100%25&amp;height=500&amp;hl=en&amp;q=${mapurl}+(Home)&amp;t=&amp;z=17&amp;ie=UTF8&amp;iwloc=B&amp;output=embed"><a href="https://www.maps.ie/population/">Population mapping</a></iframe>`
+            );
             console.log(mapurl)
             x.innerHTML = "Latitude: " + position.coords.latitude +
                 "<br>Longitude: " + position.coords.longitude +
