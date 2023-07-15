@@ -3,6 +3,7 @@
 namespace App\Http\Controllers;
 
 use App\Models\Penjemputan;
+use App\Models\Transaksi;
 use Illuminate\Http\Request;
 
 class PenjemputanController extends Controller
@@ -15,7 +16,8 @@ class PenjemputanController extends Controller
     public function index()
     {
         return view('dashboard.penjemputan.index', [
-            'datas' => Penjemputan::all()
+            'transaksi' => Transaksi::where('type', 'di-rumah'),
+            'datas' => Penjemputan::all(),
         ]);
     }
 
@@ -59,8 +61,8 @@ class PenjemputanController extends Controller
      */
     public function edit($id)
     {
-        return view('dashboard.penjemputan.edit',[
-            'datas' => Penjemputan::firstwhere('id',$id)
+        return view('dashboard.penjemputan.edit', [
+            'datas' => Penjemputan::firstwhere('id', $id),
         ]);
     }
 
