@@ -11,4 +11,14 @@ class Post extends Model
     protected $table = 'post';
     protected $guarded = ['id'];
 
+    public function user()
+    {
+        return $this->hasOne(User::class);
+    }
+
+    public function comments()
+    {
+        return $this->hasMany(Comments::class);
+    }
+
 }

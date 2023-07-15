@@ -121,14 +121,6 @@
                                 </div>
                                 <span class="nav-link-text ms-1">Data Users</span>
                             </a>
-                        
-                            <a class="nav-link  {{ request()->is('all-transaksi*') ? 'active' : '' }} " href="/all-transaksi">
-                                <div
-                                    class="icon icon-shape icon-sm shadow border-radius-md bg-white text-center me-2 d-flex align-items-center justify-content-center">
-                                    <i class="fa fa-file-alt" style="color:{{ request()->is('all-transaksi*') ? 'white' : 'black' }} !important;"></i>
-                                </div>
-                                <span class="nav-link-text ms-1">Data Transaksi</span>
-                            </a>
 
                             <a class="nav-link  {{ request()->is('media*') ? 'active' : '' }} " href="/media">
                                 <div

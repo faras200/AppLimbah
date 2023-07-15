@@ -5,7 +5,7 @@
         <div class="col-12">
             <div class="card mb-4">
                 <div class="card-header pb-0 d-flex justify-content-between">
-                    <h6>Tambah Admin</h6>
+                    <h6>Tambah Users</h6>
                     <a href="/users" class="btn btn-danger">Batal <i class="fas fa-times"></i></a>
                 </div>
                 <div class="card-body px-0 pt-0 pb-2">

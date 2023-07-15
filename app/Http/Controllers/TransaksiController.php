@@ -2,8 +2,11 @@
 
 namespace App\Http\Controllers;
 
+use App\Http\Controllers\Controller;
+use App\Models\Post;
 use App\Models\Transaksi;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Auth;
 
 class TransaksiController extends Controller
 {
@@ -14,7 +17,7 @@ class TransaksiController extends Controller
      */
     public function index()
     {
-        return view('dashboard.transaksi.index',[
+        return view('dashboard.transaksi.index', [
             'datas' => Transaksi::all(),
         ]);
     }
@@ -37,7 +40,26 @@ class TransaksiController extends Controller
      */
     public function store(Request $request)
     {
-        //
+        $validasi = $request->validate([
+            'post_id' => 'required|max:255',
+            'harga_deal' => 'required',
+            'type' => 'required',
+        ]);
+
+        $user = Auth::user();
+        $validasi['status'] = 'proses';
+        $validasi['deskripsi'] = $request->deskripsi;
+        $validasi['user_id'] = $user->id;
+
+        Post::where('id', $validasi['post_id'])->update([
+            'status' => 'Non-Aktif',
+        ]);
+        $transaksi = Transaksi::create($validasi);
+        return response()->json([
+            'success' => true,
+            'transaksi' => $transaksi,
+        ]);
+        //return redirect('/post')->with('success', 'Berhasil Menambah Post!!');
     }
 
     /**

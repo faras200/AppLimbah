@@ -1,15 +1,16 @@
 <?php
 
-use UniSharp\LaravelFilemanager\Lfm;
-use Illuminate\Support\Facades\Route;
-use App\Http\Controllers\HomeController;
-use App\Http\Controllers\UsersController;
-use App\Http\Controllers\LaporanController;
-use App\Http\Controllers\ProfileController;
-use App\Http\Controllers\PostinganController;
-use App\Http\Controllers\TransaksiController;
-use App\Http\Controllers\PenjemputanController;
 use App\Http\Controllers\AdministratorController;
+use App\Http\Controllers\CommentsController;
+use App\Http\Controllers\HomeController;
+use App\Http\Controllers\LaporanController;
+use App\Http\Controllers\PenjemputanController;
+use App\Http\Controllers\PostinganController;
+use App\Http\Controllers\ProfileController;
+use App\Http\Controllers\TransaksiController;
+use App\Http\Controllers\UsersController;
+use Illuminate\Support\Facades\Route;
+use UniSharp\LaravelFilemanager\Lfm;
 
 /*
 |--------------------------------------------------------------------------
@@ -29,7 +30,7 @@ Route::middleware(['auth'])->group(function () {
         Lfm::routes();
     });
 
-    Route::get('/media', function(){
+    Route::get('/media', function () {
         return view('dashboard.media.index');
     });
 
@@ -44,6 +45,8 @@ Route::middleware(['auth'])->group(function () {
     ]);
     Route::get('/administrator/delete/{id}', [AdministratorController::class, 'destroy']);
     Route::get('/post/delete/{id}', [PostinganController::class, 'destroy']);
+    Route::get('/users/delete/{id}', [UsersController::class, 'destroy']);
+
     Route::put('/profile/alamat/{id}', [ProfileController::class, 'updatealamat']);
 
     Route::resource('/profile', ProfileController::class)->names([
@@ -66,7 +69,10 @@ Route::middleware(['auth'])->group(function () {
 
     Route::resource('/transaksi', TransaksiController::class)->names([
         'index' => 'Transaksi',
+        'store' => 'create.transaksi',
     ]);
+
+    Route::resource('/komentar', CommentsController::class);
 });
 
 require __DIR__ . '/auth.php';

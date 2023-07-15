@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers;
 
+use App\Models\Comments;
 use App\Models\Post;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
@@ -15,9 +16,18 @@ class PostinganController extends Controller
      */
     public function index()
     {
-        return view('dashboard.postingan.index', [
-            'postingan' => Post::all(),
-        ]);
+        $user = Auth::user();
+        if ($user->role_id == 0) {
+            return view('dashboard.postingan.index', [
+                'postingan' => Post::where('status', 'Aktif')->get(),
+            ]);
+        } elseif ($user->role_id == 2) {
+            return view('dashboard.postingan.index', [
+                'postingan' => Post::where('user_id', $user->id)->get(),
+            ]);
+
+        }
+
     }
 
     /**
@@ -40,11 +50,11 @@ class PostinganController extends Controller
     {
         $validasi = $request->validate([
             'nama_barang' => 'required|max:255',
-            'foto'  => 'required|max:5000',
-            'harga'  => 'required|max:5000',
+            'foto' => 'required|max:5000',
+            'harga' => 'required|max:5000',
             'deskripsi_barang' => 'required',
             'jenis' => 'required',
-            'berat' => 'required'
+            'berat' => 'required',
         ]);
 
         $user = Auth::user();
@@ -60,9 +70,10 @@ class PostinganController extends Controller
         $numeric_amount = str_replace('.', '', $numeric_amount);
 
         // Mengonversi menjadi angka
-        $numeric_amount = (int)$numeric_amount;
+        $numeric_amount = (int) $numeric_amount;
+        $validasi['status'] = 'Aktif';
         $validasi['harga'] = $numeric_amount;
-        $validasi['user_id'] = auth()->user()->id;
+        $validasi['user_id'] = $user->id;
 
         Post::create($validasi);
 
@@ -78,7 +89,8 @@ class PostinganController extends Controller
     public function show($id)
     {
         return view('dashboard.postingan.show', [
-            'data' => Post::firstwhere('id',$id)
+            'data' => Post::firstwhere('id', $id),
+            'komentars' => Comments::where('post_id', $id)->get(),
         ]);
     }
 
@@ -106,12 +118,14 @@ class PostinganController extends Controller
     {
         $validasi = $request->validate([
             'nama_barang' => 'required|max:255',
-            'foto'  => 'required|max:5000',
-            'harga'  => 'required|max:5000',
+            'foto' => 'required|max:5000',
+            'harga' => 'required|max:5000',
             'deskripsi_barang' => 'required',
             'jenis' => 'required',
-            'berat' => 'required'
+            'status' => 'required',
+            'berat' => 'required',
         ]);
+        // dd($validasi);
 
         $user = Auth::user();
 
@@ -126,14 +140,14 @@ class PostinganController extends Controller
         $numeric_amount = str_replace('.', '', $numeric_amount);
 
         // Mengonversi menjadi angka
-        $numeric_amount = (int)$numeric_amount;
+        $numeric_amount = (int) $numeric_amount;
         $validasi['harga'] = $numeric_amount;
-        $validasi['user_id'] = auth()->user()->id;
-        
+        $validasi['user_id'] = $user->id;
+
         Post::where('id', $id)
             ->update($validasi);
 
-        return redirect('/post')->with('success', 'Berhasil Menambah Post!!');
+        return redirect('/post')->with('success', 'Berhasil Mengubah Post!!');
     }
 
     /**

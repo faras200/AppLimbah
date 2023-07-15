@@ -46,7 +46,7 @@ class UsersController extends Controller
         ]);
         $validated['password'] = Hash::make($request->password);
         User::create($validated);
-        return redirect('/users')->with('success', 'Berhasil Menambah Admin!!');
+        return redirect('/users')->with('success', 'Berhasil Menambah Users!!');
     }
 
     /**
@@ -102,7 +102,7 @@ class UsersController extends Controller
         User::where('id', $id)
             ->update($validasi);
 
-        return redirect('/users')->with('success', 'Berhasil Mengubah Admin!!');
+        return redirect('/users')->with('success', 'Berhasil Mengubah Users!!');
     }
 
     /**

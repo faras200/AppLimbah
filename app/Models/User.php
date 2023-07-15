@@ -46,4 +46,14 @@ class User extends Authenticatable
     {
         return $this->belongsTo(Alamat::class);
     }
+
+    public function post()
+    {
+        return $this->belongsTo(Post::class);
+    }
+
+    public function comments()
+    {
+        return $this->hasMany(Comments::class);
+    }
 }

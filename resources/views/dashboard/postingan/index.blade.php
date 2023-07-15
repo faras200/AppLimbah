@@ -34,7 +34,9 @@
                                     <th class="text-uppercase text-secondary text-xxs font-weight-bolder opacity-7 ps-2">
                                         Berat</th>
                                     <th class="text-uppercase text-secondary text-xxs font-weight-bolder opacity-7 ps-2">
-                                        Deskripsi</th>
+                                        Status</th>
+                                    <th class="text-uppercase text-secondary text-xxs font-weight-bolder opacity-7 ps-2">
+                                        Harga</th>
                                     <th
                                         class="text-center text-uppercase text-secondary text-xxs font-weight-bolder opacity-7">
                                         Aksi</th>
@@ -46,7 +48,7 @@
                                         <td>
                                             <div class="d-flex px-2 py-1">
                                                 <div>
-                                                    <img src="{{$post->foto}}" class="avatar avatar-sm me-3"
+                                                    <img src="{{ $post->foto }}" class="avatar avatar-sm me-3"
                                                         alt="user1">
                                                 </div>
                                                 <div class="d-flex flex-column justify-content-center">
@@ -67,7 +69,12 @@
                                         </td>
                                         <td>
                                             <p class="text-xs font-weight-bold mb-0">
-                                                Rp. {{ number_format($post->harga, 0, ',', '.');}}</p>
+                                                {{ $post->status }}</p>
+                                            {{-- <p class="text-xs text-secondary mb-0">Organization</p> --}}
+                                        </td>
+                                        <td>
+                                            <p class="text-xs font-weight-bold mb-0">
+                                                Rp. {{ number_format($post->harga, 0, ',', '.') }}</p>
                                             {{-- <p class="text-xs text-secondary mb-0">Organization</p> --}}
                                         </td>
                                         <td class="align-middle text-center">
