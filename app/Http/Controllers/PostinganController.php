@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers;
 
+use App\Models\Alamat;
 use App\Models\Comments;
 use App\Models\Post;
 use Illuminate\Http\Request;
@@ -88,9 +89,11 @@ class PostinganController extends Controller
      */
     public function show($id)
     {
+        $user = Auth::user();
         return view('dashboard.postingan.show', [
             'data' => Post::firstwhere('id', $id),
             'komentars' => Comments::where('post_id', $id)->get(),
+            'alamat' => Alamat::firstwhere('user_id', $user->id),
         ]);
     }
 

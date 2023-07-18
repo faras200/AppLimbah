@@ -315,6 +315,7 @@ unset($__errorArgs, $__bag); ?>"
                             </button>
                         </div>
                         <div class="modal-body">
+                            <input type="hidden" id="alamat" value="<?php echo e($alamat); ?>">
                             <input type="hidden" id="harga_deal" value="">
                             <input type="hidden" id="status" value="<?php echo e($data->status); ?>">
                             <p>Kamu yakin deal dengan harga penawaran ini?</p>
@@ -376,7 +377,22 @@ unset($__errorArgs, $__bag); ?>" name="deskripsi" rows="5"
 
                 function buatTransaksi(harga) {
                     const status = $('#status').val();
-                    if (status == 'Non-Aktif') {
+                    const alamat = $('#alamat').val();
+                    if (alamat === '') {
+                        swal({
+                                title: "Peringatan Alamat Tidak Ada!!",
+                                text: "Tambah Alamat di halaman Profil untuk bisa lanjut ke transaksi!!",
+                                icon: "warning",
+                                buttons: ['Batal', 'Tambah Alamat'],
+                            })
+                            .then((willDelete) => {
+                                if (willDelete) {
+                                    window.location.href = '/profile';
+                                }
+                            });
+                        return false;
+                    }
+                    if (status === 'Non-Aktif') {
                         swal("Peringatan Postingan Ini Tidak Aktif!!",
                             "Ubah Postingan Ini menjadi aktif untuk bisa lanjut ke transaksi!", "warning");
                         return false;
