@@ -6,7 +6,9 @@
             <div class="card mb-4">
                 <div class="card-header pb-0 d-flex justify-content-between">
                     <h6>Postingan</h6>
-                    <a href="/post/create" class="btn btn-primary">Tambah <i class="fas fa-plus"></i></a>
+                    @can('isUser')
+                        <a href="/post/create" class="btn btn-primary">Tambah <i class="fas fa-plus"></i></a>
+                    @endcan
                 </div>
                 @if (session()->has('success'))
                     @php
@@ -78,16 +80,18 @@
                                             {{-- <p class="text-xs text-secondary mb-0">Organization</p> --}}
                                         </td>
                                         <td class="align-middle text-center">
-                                            <span data-container="body" data-bs-toggle="popover" data-bs-placement="top"
-                                                data-bs-trigger="hover focus" data-bs-content="Disabled popover">
-                                                <a href="/post/{{ $post->id }}/edit" style="margin-right: 5px;"><i
-                                                        class="fas fa-edit text-warning"></i></a>
-                                            </span>
-                                            <span data-container="body" data-bs-toggle="popover" data-bs-placement="top"
-                                                data-bs-trigger="hover focus" data-bs-content="Disabled popover">
-                                                <i class="fas fa-trash text-danger"
-                                                    onclick="confirmationHapusData('/post/delete/{{ $post->id }}')"></i>
-                                            </span>
+                                            @can('isUser')
+                                                <span data-container="body" data-bs-toggle="popover" data-bs-placement="top"
+                                                    data-bs-trigger="hover focus" data-bs-content="Disabled popover">
+                                                    <a href="/post/{{ $post->id }}/edit" style="margin-right: 5px;"><i
+                                                            class="fas fa-edit text-warning"></i></a>
+                                                </span>
+                                                <span data-container="body" data-bs-toggle="popover" data-bs-placement="top"
+                                                    data-bs-trigger="hover focus" data-bs-content="Disabled popover">
+                                                    <i class="fas fa-trash text-danger"
+                                                        onclick="confirmationHapusData('/post/delete/{{ $post->id }}')"></i>
+                                                </span>
+                                            @endcan
                                             <a href="/post/{{ $post->id }}" style="margin-left: 5px;"><i
                                                     class="fas fa-eye text-info"></i></a>
                                         </td>
