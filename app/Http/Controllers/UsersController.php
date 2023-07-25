@@ -2,6 +2,9 @@
 
 namespace App\Http\Controllers;
 
+use App\Models\Penjemputan;
+use App\Models\Post;
+use App\Models\Transaksi;
 use App\Models\User;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Hash;
@@ -16,7 +19,7 @@ class UsersController extends Controller
     public function index()
     {
         return view('dashboard.users.index', [
-            'admins' => User::whereIn('role_id',['2'])->get()
+            'admins' => User::whereIn('role_id', ['2'])->get(),
         ]);
     }
 
@@ -114,6 +117,9 @@ class UsersController extends Controller
     public function destroy($id)
     {
         User::destroy($id);
+        Transaksi::where('user_id', $id)->delete();
+        Post::where('user_id', $id)->delete();
+        Penjemputan::where('user_id', $id)->delete();
         return redirect('/users')->with('success', 'Berhasil Menghapus Users!!');
     }
 }

@@ -2,9 +2,12 @@
 
 namespace App\Http\Controllers;
 
+use App\Http\Controllers\Controller;
 use App\Models\Alamat;
 use App\Models\Comments;
+use App\Models\Penjemputan;
 use App\Models\Post;
+use App\Models\Transaksi;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 
@@ -162,6 +165,8 @@ class PostinganController extends Controller
     public function destroy($id)
     {
         Post::destroy($id);
+        Transaksi::where('user_id', $id)->delete();
+        Penjemputan::where('user_id', $id)->delete();
         return redirect('/post')->with('success', 'Berhasil Menghapus Admin!!');
     }
 }
