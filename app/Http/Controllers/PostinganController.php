@@ -165,8 +165,9 @@ class PostinganController extends Controller
     public function destroy($id)
     {
         Post::destroy($id);
-        Transaksi::where('user_id', $id)->delete();
-        Penjemputan::where('user_id', $id)->delete();
+        Transaksi::where('post_id', $id)->delete();
+        Penjemputan::where('post_id', $id)->delete();
+        Comments::where('post_id', $id)->delete();
         return redirect('/post')->with('success', 'Berhasil Menghapus Admin!!');
     }
 }
