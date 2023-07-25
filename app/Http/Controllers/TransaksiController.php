@@ -21,9 +21,9 @@ class TransaksiController extends Controller
     {
         $user = Auth::user();
         if ($user->role_id == 0) {
-            $datas = Transaksi::where('status', '!=', 'selesai')->get();
+            $datas = Transaksi::with(['post', 'user'])->where('status', '!=', 'selesai')->get();
         } elseif ($user->role_id == 2) {
-            $datas = Transaksi::select('transaksi.*')->join('post', 'transaksi.post_id', 'post.id')
+            $datas = Transaksi::with(['post', 'user'])->select('transaksi.*')->join('post', 'transaksi.post_id', 'post.id')
                 ->where('post.user_id', $user->id)
                 ->get();
         }

@@ -19,10 +19,10 @@ class PenjemputanController extends Controller
     public function index()
     {
         return view('dashboard.penjemputan.index', [
-            'transaksi' => Transaksi::where('type', 'di-rumah')
+            'transaksi' => Transaksi::with(['post', 'user'])->where('type', 'di-rumah')
                 ->where('status', 'Proses')
                 ->get(),
-            'datas' => Penjemputan::where('status', 'jalan')->get(),
+            'datas' => Penjemputan::with(['transaksi', 'user'])->where('status', 'jalan')->get(),
         ]);
     }
 
