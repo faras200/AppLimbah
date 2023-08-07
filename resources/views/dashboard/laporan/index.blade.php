@@ -39,76 +39,124 @@
                     </script>
                 @endif
                 <div class="card-body tab-content px-0 pt-0 pb-2" id="pills-tabContent">
-                    <div id="transaksi" class="tab-pane fade show active table-responsive p-0">
-                        <table class="table align-items-center mb-0">
-                            <thead>
-                                <tr>
-                                    <th class="text-uppercase text-secondary text-xxs font-weight-bolder opacity-7">Nama
-                                        Barang
-                                    </th>
-                                    <th class="text-uppercase text-secondary text-xxs font-weight-bolder opacity-7 ps-2">
-                                        Pelanggan</th>
-                                    <th class="text-uppercase text-secondary text-xxs font-weight-bolder opacity-7 ps-2">
-                                        Harga Deal</th>
-                                    <th class="text-uppercase text-secondary text-xxs font-weight-bolder opacity-7 ps-2">
-                                        Status</th>
-                                    <th class="text-uppercase text-secondary text-xxs font-weight-bolder opacity-7 ps-2">
-                                        Type</th>
-                                    <th class="text-uppercase text-secondary text-xxs font-weight-bolder opacity-7 ps-2">
-                                        Tanggal</th>
-                                    <th
-                                        class="text-center text-uppercase text-secondary text-xxs font-weight-bolder opacity-7">
-                                        Aksi</th>
-                                </tr>
-                            </thead>
-                            <tbody>
-                                @foreach ($transaksi as $data)
+                    <div id="transaksi" class="tab-pane fade show active">
+                        <div class="row p-3">
+                            <div class="col-6">
+                                <label>Dari Tanggal </label>
+                                <select class="form-control" id="bulan">
+                                    <option {{ date('m') == '01' ? 'selected' : '' }} value="01">JANUARI</option>
+                                    <option {{ date('m') == '02' ? 'selected' : '' }} value="02">FEBRUARI</option>
+                                    <option {{ date('m') == '03' ? 'selected' : '' }} value="03">MARET</option>
+                                    <option {{ date('m') == '04' ? 'selected' : '' }} value="04">APRIL</option>
+                                    <option {{ date('m') == '05' ? 'selected' : '' }} value="05">MEI</option>
+                                    <option {{ date('m') == '06' ? 'selected' : '' }} value="06">JUNI</option>
+                                    <option {{ date('m') == '07' ? 'selected' : '' }} value="07">JULI</option>
+                                    <option {{ date('m') == '08' ? 'selected' : '' }} value="08">AGUSTUS</option>
+                                    <option {{ date('m') == '09' ? 'selected' : '' }} value="09">SEPTEMBER</option>
+                                    <option {{ date('m') == '10' ? 'selected' : '' }} value="10">OKTOBER</option>
+                                    <option {{ date('m') == '11' ? 'selected' : '' }} value="11">NOVEMBER</option>
+                                    <option {{ date('m') == '12' ? 'selected' : '' }} value="12">DESEMBER</option>
+                                </select>
+                            </div>
+                            <div class="col-4" style="padding-left:0px;">
+                                <label>Sampai Tanggal</label>
+                                <select class="form-control" id="tahun">
+                                    <option {{ date('Y') == 2022 ? 'selected' : '' }}>2022</option>
+                                    <option {{ date('Y') == 2023 ? 'selected' : '' }}>2023</option>
+                                    <option {{ date('Y') == 2024 ? 'selected' : '' }}>2024</option>
+                                    <option {{ date('Y') == 2025 ? 'selected' : '' }}>2025</option>
+                                </select>
+                            </div>
+                            <div class="col-2"">
+                                <label>&nbsp; </label> <br>
+                                <button onclick="Cari();" class="btn btn-block btn-success"><i
+                                        class="fa fa-search"></i>&nbsp;Filter</button>
+                            </div>
+                        </div>
+                        <div class="row">
+                            <div class="col-6">
+                                <a href="/laporan/cetak" class="btn btn-primary">Cetak Laporan</a>
+                            </div>
+                        </div>
+                        <hr>
+                        <div class=" table-responsive">
+                            <table class="table align-items-center mb-0">
+                                <thead>
                                     <tr>
-                                        <td>
-                                            <div class="d-flex px-2 py-1">
-                                                <div>
-                                                    <img src="{{ $data->post->foto }}" class="avatar avatar-sm me-3"
-                                                        alt="user1">
-                                                </div>
-                                                <div class="d-flex flex-column justify-content-center">
-                                                    <h6 class="mb-0 text-sm">{{ $data->post->nama_barang }}</h6>
-                                                </div>
-                                            </div>
-                                        </td>
-                                        <td>
-                                            <p class="text-xs font-weight-bold mb-0">
-                                                {{ $data->post->user->name }}</p>
-                                        </td>
-                                        <td>
-                                            <p class="text-xs font-weight-bold mb-0">
-                                                Rp. {{ number_format($data->harga_deal, 0, ',', '.') }}</p>
-                                        </td>
-                                        <td>
-                                            <p class="text-xs font-weight-bold mb-0">
-                                                {{ $data->status }}</p>
-                                        </td>
-                                        <td>
-                                            <p class="text-xs font-weight-bold mb-0">
-                                                {{ $data->type }}</p>
-                                        </td>
-                                        <td>
-                                            <p class="text-xs font-weight-bold mb-0">
-                                                {{ date('d-m-Y', strtotime($data->created_at)) }}</p>
-                                        </td>
-                                        <td class="align-middle text-center">
-                                            @can('isAdmin')
-                                                <i class="fas fa-trash text-danger"
-                                                    onclick="confirmationHapusData('/transaksi/delete/{{ $data->id }}')"></i>
-                                            @endcan
-                                            <a href="/transaksi/{{ $data->id }}" style="margin-left: 5px;"><i
-                                                    class="fas fa-eye text-info"></i></a>
-
-                                        </td>
+                                        <th class="text-uppercase text-secondary text-xxs font-weight-bolder opacity-7">Nama
+                                            Barang
+                                        </th>
+                                        <th
+                                            class="text-uppercase text-secondary text-xxs font-weight-bolder opacity-7 ps-2">
+                                            Pelanggan</th>
+                                        <th
+                                            class="text-uppercase text-secondary text-xxs font-weight-bolder opacity-7 ps-2">
+                                            Harga Deal</th>
+                                        <th
+                                            class="text-uppercase text-secondary text-xxs font-weight-bolder opacity-7 ps-2">
+                                            Status</th>
+                                        <th
+                                            class="text-uppercase text-secondary text-xxs font-weight-bolder opacity-7 ps-2">
+                                            Type</th>
+                                        <th
+                                            class="text-uppercase text-secondary text-xxs font-weight-bolder opacity-7 ps-2">
+                                            Tanggal</th>
+                                        <th
+                                            class="text-center text-uppercase text-secondary text-xxs font-weight-bolder opacity-7">
+                                            Aksi</th>
                                     </tr>
-                                @endforeach
-                            </tbody>
-                        </table>
+                                </thead>
+                                <tbody>
+                                    @foreach ($transaksi as $data)
+                                        <tr>
+                                            <td>
+                                                <div class="d-flex px-2 py-1">
+                                                    <div>
+                                                        <img src="{{ $data->post->foto }}" class="avatar avatar-sm me-3"
+                                                            alt="user1">
+                                                    </div>
+                                                    <div class="d-flex flex-column justify-content-center">
+                                                        <h6 class="mb-0 text-sm">{{ $data->post->nama_barang }}</h6>
+                                                    </div>
+                                                </div>
+                                            </td>
+                                            <td>
+                                                <p class="text-xs font-weight-bold mb-0">
+                                                    {{ $data->post->user->name }}</p>
+                                            </td>
+                                            <td>
+                                                <p class="text-xs font-weight-bold mb-0">
+                                                    Rp. {{ number_format($data->harga_deal, 0, ',', '.') }}</p>
+                                            </td>
+                                            <td>
+                                                <p class="text-xs font-weight-bold mb-0">
+                                                    {{ $data->status }}</p>
+                                            </td>
+                                            <td>
+                                                <p class="text-xs font-weight-bold mb-0">
+                                                    {{ $data->type }}</p>
+                                            </td>
+                                            <td>
+                                                <p class="text-xs font-weight-bold mb-0">
+                                                    {{ date('d-m-Y', strtotime($data->created_at)) }}</p>
+                                            </td>
+                                            <td class="align-middle text-center">
+                                                @can('isAdmin')
+                                                    <i class="fas fa-trash text-danger"
+                                                        onclick="confirmationHapusData('/transaksi/delete/{{ $data->id }}')"></i>
+                                                @endcan
+                                                <a href="/transaksi/{{ $data->id }}" style="margin-left: 5px;"><i
+                                                        class="fas fa-eye text-info"></i></a>
+
+                                            </td>
+                                        </tr>
+                                    @endforeach
+                                </tbody>
+                            </table>
+                        </div>
                     </div>
+
+
                     <div id="penjemputan" class="tab-pane fade table-responsive p-0">
                         <table class="table align-items-center mb-0">
                             <thead>

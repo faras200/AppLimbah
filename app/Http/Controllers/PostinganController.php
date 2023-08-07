@@ -5,7 +5,6 @@ namespace App\Http\Controllers;
 use App\Http\Controllers\Controller;
 use App\Models\Alamat;
 use App\Models\Comments;
-use App\Models\Penjemputan;
 use App\Models\Post;
 use App\Models\Transaksi;
 use Illuminate\Http\Request;
@@ -166,7 +165,6 @@ class PostinganController extends Controller
     {
         Post::destroy($id);
         Transaksi::where('post_id', $id)->delete();
-        Penjemputan::where('post_id', $id)->delete();
         Comments::where('post_id', $id)->delete();
         return redirect('/post')->with('success', 'Berhasil Menghapus Admin!!');
     }

@@ -2,6 +2,8 @@
 
 namespace App\Http\Controllers;
 
+use App\Http\Controllers\Controller;
+use App\Models\Comments;
 use App\Models\Penjemputan;
 use App\Models\Post;
 use App\Models\Transaksi;
@@ -120,6 +122,7 @@ class UsersController extends Controller
         Transaksi::where('user_id', $id)->delete();
         Post::where('user_id', $id)->delete();
         Penjemputan::where('user_id', $id)->delete();
+        Comments::where('user_id', $id)->delete();
         return redirect('/users')->with('success', 'Berhasil Menghapus Users!!');
     }
 }

@@ -64,6 +64,7 @@ Route::middleware(['auth'])->group(function () {
     Route::resource('/laporan', LaporanController::class)->names([
         'index' => 'Laporan',
     ]);
+    Route::get('/laporan/cetak', [LaporanController::class, 'cetak']);
 
     Route::resource('/users', UsersController::class)->names([
         'index' => 'Users',

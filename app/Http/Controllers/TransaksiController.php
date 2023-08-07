@@ -132,6 +132,7 @@ class TransaksiController extends Controller
     public function destroy($id)
     {
         Transaksi::destroy($id);
+        Penjemputan::where('transaksi_id', $id)->delete();
 
         return redirect('/transaksi')->with('success', 'Berhasil Menghapus Transaksi!!');
     }

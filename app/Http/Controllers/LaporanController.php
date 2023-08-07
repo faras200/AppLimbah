@@ -5,6 +5,7 @@ namespace App\Http\Controllers;
 use App\Models\Penjemputan;
 use App\Models\Transaksi;
 use Illuminate\Http\Request;
+use PDF;
 
 class LaporanController extends Controller
 {
@@ -85,5 +86,17 @@ class LaporanController extends Controller
     public function destroy($id)
     {
         //
+    }
+
+    public function cetak(Request $request)
+    {
+        $data = [
+            'title' => 'Welcome to ItSolutionStuff.com',
+            'date' => date('m/d/Y'),
+        ];
+
+        $pdf = PDF::loadView('dashboard.laporan.crtakpdf', $data);
+
+        return $pdf->download('itsolutionstuff.pdf');
     }
 }
