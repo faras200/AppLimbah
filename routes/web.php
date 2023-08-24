@@ -27,7 +27,7 @@ use UniSharp\LaravelFilemanager\Lfm;
 Route::get('/', [HomeController::class, 'index']);
 
 Route::middleware(['auth'])->group(function () {
-    Route::group(['prefix' => 'laravel-filemanager', 'middleware' => ['web', 'auth']], function () {
+    Route::group(['prefix' => 'laravel-filemanager', 'middleware' => ['web', 'auth']],function () {
         Lfm::routes();
     });
 
@@ -61,10 +61,8 @@ Route::middleware(['auth'])->group(function () {
         'index' => 'Penjemputan',
         'store' => 'create.penjemputan',
     ]);
-    Route::resource('/laporan', LaporanController::class)->names([
-        'index' => 'Laporan',
-    ]);
     Route::get('/laporan/cetak', [LaporanController::class, 'cetak']);
+    Route::get('/laporan', [LaporanController::class, 'index'])->name('Laporan');
 
     Route::resource('/users', UsersController::class)->names([
         'index' => 'Users',

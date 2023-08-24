@@ -25,7 +25,32 @@
                             </li>
                         </ul>
                     </div>
+
+
                 </div>
+                <form action="/laporan" method="get">
+                    <div class="row p-3">
+
+
+                        <div class="col-6">
+                            <label>Dari Tanggal </label>
+                            <input type="date" class="form-control" value="{{ app('request')->input('dari') }}" name="dari">
+                        </div>
+                        <div class="col-4" style="padding-left:0px;">
+                            <label>Sampai Tanggal</label>
+                            <input type="date" class="form-control" value="{{ app('request')->input('sampai') }}" name="sampai">
+
+                            </input>
+                        </div>
+                        <div class="col-2"">
+                            <label>&nbsp; </label> <br>
+                            <button type="submit" class="btn btn-block btn-success"><i
+                                    class="fa fa-search"></i>&nbsp;Filter</button>
+
+                        </div>
+
+                    </div>
+                </form>
                 @if (session()->has('success'))
                     @php
                         $p = session('success');
@@ -40,45 +65,13 @@
                 @endif
                 <div class="card-body tab-content px-0 pt-0 pb-2" id="pills-tabContent">
                     <div id="transaksi" class="tab-pane fade show active">
-                        <div class="row p-3">
-                            <div class="col-6">
-                                <label>Dari Tanggal </label>
-                                <select class="form-control" id="bulan">
-                                    <option {{ date('m') == '01' ? 'selected' : '' }} value="01">JANUARI</option>
-                                    <option {{ date('m') == '02' ? 'selected' : '' }} value="02">FEBRUARI</option>
-                                    <option {{ date('m') == '03' ? 'selected' : '' }} value="03">MARET</option>
-                                    <option {{ date('m') == '04' ? 'selected' : '' }} value="04">APRIL</option>
-                                    <option {{ date('m') == '05' ? 'selected' : '' }} value="05">MEI</option>
-                                    <option {{ date('m') == '06' ? 'selected' : '' }} value="06">JUNI</option>
-                                    <option {{ date('m') == '07' ? 'selected' : '' }} value="07">JULI</option>
-                                    <option {{ date('m') == '08' ? 'selected' : '' }} value="08">AGUSTUS</option>
-                                    <option {{ date('m') == '09' ? 'selected' : '' }} value="09">SEPTEMBER</option>
-                                    <option {{ date('m') == '10' ? 'selected' : '' }} value="10">OKTOBER</option>
-                                    <option {{ date('m') == '11' ? 'selected' : '' }} value="11">NOVEMBER</option>
-                                    <option {{ date('m') == '12' ? 'selected' : '' }} value="12">DESEMBER</option>
-                                </select>
-                            </div>
-                            <div class="col-4" style="padding-left:0px;">
-                                <label>Sampai Tanggal</label>
-                                <select class="form-control" id="tahun">
-                                    <option {{ date('Y') == 2022 ? 'selected' : '' }}>2022</option>
-                                    <option {{ date('Y') == 2023 ? 'selected' : '' }}>2023</option>
-                                    <option {{ date('Y') == 2024 ? 'selected' : '' }}>2024</option>
-                                    <option {{ date('Y') == 2025 ? 'selected' : '' }}>2025</option>
-                                </select>
-                            </div>
-                            <div class="col-2"">
-                                <label>&nbsp; </label> <br>
-                                <button onclick="Cari();" class="btn btn-block btn-success"><i
-                                        class="fa fa-search"></i>&nbsp;Filter</button>
+
+                        <div class="row justify-content-center">
+                            <div class="col-2">
+                                <a target="blank" href="/laporan/cetak?dari={{ app('request')->input('dari') }}&sampai={{ app('request')->input('sampai') }}&type=transaksi" class="btn btn-primary">Cetak Laporan <i
+                                        class="fa fa-file-pdf"></i></a>
                             </div>
                         </div>
-                        <div class="row">
-                            <div class="col-6">
-                                <a href="/laporan/cetak" class="btn btn-primary">Cetak Laporan</a>
-                            </div>
-                        </div>
-                        <hr>
                         <div class=" table-responsive">
                             <table class="table align-items-center mb-0">
                                 <thead>
@@ -158,6 +151,12 @@
 
 
                     <div id="penjemputan" class="tab-pane fade table-responsive p-0">
+                        <div class="row justify-content-center">
+                            <div class="col-2">
+                                <a target="blank" href="/laporan/cetak?dari={{ app('request')->input('dari') }}&sampai={{ app('request')->input('sampai') }}&type=penjemputan" class="btn btn-primary">Cetak Laporan <i
+                                        class="fa fa-file-pdf"></i></a>
+                            </div>
+                        </div>
                         <table class="table align-items-center mb-0">
                             <thead>
                                 <tr>

@@ -5,7 +5,8 @@ namespace App\Http\Controllers;
 use App\Models\Penjemputan;
 use App\Models\Transaksi;
 use Illuminate\Http\Request;
-use PDF;
+use Illuminate\Support\Facades\App;
+use    PDF;
 
 class LaporanController extends Controller
 {
@@ -14,11 +15,15 @@ class LaporanController extends Controller
      *
      * @return \Illuminate\Http\Response
      */
-    public function index()
+    public function index(Request $request)
     {
         return view('dashboard.laporan.index', [
-            'transaksi' => Transaksi::where('status', 'selesai')->get(),
-            'penjemputan' => Penjemputan::where('status', 'selesai')->get(),
+            'transaksi' => Transaksi::where('status', 'selesai')
+            ->whereDate("created_at", '>=', $request->dari)
+            ->whereDate("created_at", '<=', $request->sampai)->get(),
+            'penjemputan' => Penjemputan::where('status', 'selesai')
+            ->whereDate("created_at", '>=', $request->dari)
+            ->whereDate("created_at", '<=', $request->sampai)->get(),
         ]);
     }
 
@@ -90,13 +95,23 @@ class LaporanController extends Controller
 
     public function cetak(Request $request)
     {
-        $data = [
-            'title' => 'Welcome to ItSolutionStuff.com',
-            'date' => date('m/d/Y'),
-        ];
+        if($request->type == 'transaksi'){
+          $data =  [
+                'transaksi' => Transaksi::where('status', 'selesai')
+                ->whereDate("created_at", '>=', $request->dari)
+                ->whereDate("created_at", '<=', $request->sampai)->get(),
+            ];
+        }elseif($request->type == 'penjemputan'){
+            $data =  [
+                'penjemputan' => Penjemputan::where('status', 'selesai')
+                ->whereDate("created_at", '>=', $request->dari)
+                ->whereDate("created_at", '<=', $request->sampai)->get(),
+            ];
+        }
 
-        $pdf = PDF::loadView('dashboard.laporan.crtakpdf', $data);
 
-        return $pdf->download('itsolutionstuff.pdf');
+        $pdf = PDF::loadView('dashboard.laporan.cetakpdf', $data);
+        return $pdf->stream('laporan.pdf');
+        // return $pdf->download('laporan.pdf');
     }
 }
